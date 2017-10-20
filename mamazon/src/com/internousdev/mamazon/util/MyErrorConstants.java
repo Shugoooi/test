@@ -1,0 +1,12 @@
+package com.internousdev.mamazon.util;
+
+/**
+ * 入力エラーをまとめて管理
+ * @author internousdev
+ *
+ */
+public abstract interface MyErrorConstants {
+
+	public static final String LOGIN_ERROR_MESSAGE = "ログイン失敗しました";
+
+}

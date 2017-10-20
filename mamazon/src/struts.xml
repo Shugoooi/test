@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<package name="com.internousdev.mamazon.action" extends="struts-default">
+	<!-- ホームへ飛ぶ -->
+	<action name="GoHome" class="com.internousdev.mamazon.action.GoHomeAction" method="execute">
+		<result name="success">home.jsp</result>
+	</action>
+	<!-- ログイン画面へ飛ぶ -->
+	<action name="GoLogin" class="com.internousdev.mamazon.action.GoLoginPageAction" method="execute">
+		<result name="success">login.jsp</result>
+	</action>
+	<!-- ログインする -->
+	<action name="Login" class="com.internousdev.mamazon.action.LoginAction" method="execute">
+		<result name="success">home.jsp</result>
+		<result name="error">login.jsp</result>
+	</action>
+	<!-- マイページへ飛ぶ -->
+	<action name="GoMyPage" class="com.internousdev.mamazon.action.GoMyPageAction" method="execute">
+		<result name="success">myPage.jsp</result>
+	</action>
+	<!-- アカウント情報変更画面へ飛ぶ -->
+	<action name="GoUserInfoMod" class="com.internousdev.mamazon.action.GoUserInfoModAction" method="execute">
+		<result name="success">userInfoMod.jsp</result>
+	</action>
+	<!-- アカウント情報の変更内容を確認する -->
+	<action name="UserInfoModConfirm" class="com.internousdev.mamazon.action.UserInfoModConfirmAction" method="execute">
+		<result name="success">userInfoModConfirm.jsp</result>
+	</action>
+	<!-- アカウント情報を変更する -->
+	<action name="UserInfoModComplete" class="com.internousdev.mamazon.action.UserResistrationModAction" method="execute">
+		<result name="success">userInfoModComplete.jsp</result>
+	</action>
+	<!-- 新規アカウント作成画面へ飛ぶ -->
+	<action name="GoUserCreate" class="com.internousdev.mamazon.action.GoUserCreateAction" method="execute">
+		<result name="success">userCreate.jsp</result>
+	</action>
+	<!-- 新規アカウント情報を確認する -->
+	<action name="UserCreateConfirm" class="com.internousdev.mamazon.action.UserCreateConfirmAction" method="execute">
+		<result name="success">userCreateConfirm.jsp</result>
+	</action>
+	<!-- 新規アカウント情報を登録する -->
+	<action name="UserCreateComplete" class="com.internousdev.mamazon.action.UserResisterAction" method="execute">
+		<result name="success">userCreateComplete.jsp</result>
+	</action>
+	<!-- カート確認画面へ飛ぶ -->
+	<action name="LookCart" class="com.internousdev.mamazon.action.LookCartAction" method="execute">
+		<result name="success">cartConfirm.jsp</result>
+	</action>
+	<!-- ヘルプ画面へ飛ぶ -->
+	<action name="GoHelp" class="com.internousdev.mamazon.action.GoHelpAction" method="execute">
+		<result name="success">help.jsp</result>
+	</action>
+	<!-- 問い合わせ画面へ飛ぶ -->
+	<action name="GoInquiry" class="com.internousdev.mamazon.action.GoInquiryAction" method="execute">
+		<result name="success">inquiry.jsp</result>
+	</action>
+	<!-- 問い合わせ内容を確認する -->
+	<action name="InquiryConfirm" class="com.internousdev.mamazon.action.InquiryConfirmAction" method="execute">
+		<result name="success">inquiryConfirm.jsp</result>
+	</action>
+	<!-- 問い合わせ内容を送信する -->
+	<action name="InquiryTransmission" class="com.internousdev.mamazon.action.InquiryTransmissionAction" method="execute">
+		<result name="success">inquiryComplete.jsp</result>
+	</action>
+	<!-- 商品を検索する -->
+	<action name="DisplayGoods" class="com.internousdev.mamazon.action.ShowDesiredGoodsAction" method="execute">
+		<result name="success">goodsList.jsp</result>
+	</action>
+	<!-- 購入確認画面へ飛ぶ -->
+	<action name="GoBuyConfirm" class="com.internousdev.mamazon.action.GoBuyConfirmAction" method="execute">
+		<result name="success">buyConfirm.jsp</result>
+		<result name="loginRequired">login.jsp</result>
+	</action>
+	<!-- 購入する -->
+	<action name="GoBuyComplete" class="com.internousdev.mamazon.action.GoBuyCompleteAction" method="execute">
+		<result name="success">buyComplete.jsp</result>
+	</action>
+</package>
+
+</struts>

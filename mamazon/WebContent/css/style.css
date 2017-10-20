@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+
+#header {
+	width: 100%;
+	height: 50px;
+	background-color: MidnightBlue;
+}
+
+#header li {
+	float: left;
+	width: 100px;
+	list-style: none;
+}
+
+#header li s:form {
+	width: 200px;
+}
+
+#header li a {
+	display: block;
+	margin: 0;
+	color: white;
+	text-decoration: none;
+}
+
+#header li a:hover {
+	border: solid 1px lightgrey;
+}
+
+
+#main {
+	clear: both;
+	width: 500px;
+	height: 800px;
+	margin: 0 auto;
+	padding: 0;
+}
+
+#main li {
+	list-style: none;
+	width: 400px;
+	height: 50px;
+	margin: 0 auto;
+	padding: 0;
+}
+
+#main li s:textfield {
+	width: 200px;
+}
+
+#main li s:password {
+	width: 200px;
+}
+
+#main li #login_button {
+	width: 200px;
+	background-color: Gold;
+}
+
+#footer {
+	clear: both;
+	width: 100%;
+	height: 30px;
+	background-color: MidnightBlue;
+	color: white;
+	padding-top: 20px;
+	text-align: center;
+}

@@ -1,5 +1,6 @@
 package com.internousdev.mamazon.action;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +21,9 @@ public class UserResistrationModAction extends ActionSupport implements SessionA
 
 	/**
 	 * アカウント情報を変更する
+	 * @throws SQLException
 	 */
-	public String execute() {
+	public String execute() throws SQLException {
 		UserDAO dao = new UserDAO();
 		dao.setUserInfo((UserDTO) session.get("newUser"));
 		return SUCCESS;

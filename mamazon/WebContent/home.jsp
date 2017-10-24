@@ -14,13 +14,11 @@
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
 <s:div id="main">
-
-	<ul>
-		<li><a href= '<s:url action="DisplayGoods" />' >消火器</a></li>
-		<li><a href= '<s:url action="GoGoodsList" />' >消火器</a></li>
-		<li><a href= '<s:url action="GoGoodsList" />' >消火器</a></li>
-	</ul>
-
+	<s:form action="DisplayGoods">
+		<s:select list="#session.categoryMap" name="category" />
+		<s:hidden name="howSearchGoods" value="category" />
+		<s:submit value="検索" />
+	</s:form>
 </s:div>
 
 <s:div id="footer">

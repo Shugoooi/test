@@ -6,11 +6,7 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.internousdev.mamazon.dao.CartInfoDAO;
-import com.internousdev.mamazon.dao.GoodsDAO;
 import com.internousdev.mamazon.dto.CartInfoDTO;
-import com.internousdev.mamazon.dto.GoodsDTO;
-import com.internousdev.mamazon.dto.UserDTO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -26,11 +22,6 @@ public class LookCartAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> session = new HashMap<>();
 
 	/**
-	 * カート中身の商品情報及び購入予定個数のリスト
-	 */
-	private ArrayList<CartInfoDTO> cartList = new ArrayList<>();
-
-	/**
 	 * カート内商品の合計金額
 	 */
 	private int totalPrice = 0;
@@ -39,31 +30,14 @@ public class LookCartAction extends ActionSupport implements SessionAware {
 	/**
 	 * カートの中身を確認する
 	 */
+	@SuppressWarnings("unchecked")
 	public String execute() {
 
-		CartInfoDAO cartInfoDAO = new CartInfoDAO();
-		GoodsDAO goodsDAO = new GoodsDAO();
-
-		//ログインしているならカート情報をさらに取得
-		if( session.containsKey("userInfo") ) {
-			if( ((UserDTO) session.get("userInfo")).getLoginFlg() ) {
-
-				cartInfoDAO.getCartInfo( (int)session.get("masterId"), cartList );
-				//カート情報に商品の値段、在庫情報を追加
-				for(CartInfoDTO dto : cartList) {
-					GoodsDTO goodsDTO = goodsDAO.getGoodsInfo( dto.getGoodsName() );
-					dto.setGoodsInfo(goodsDTO);
-				}
-
+		if(session.containsKey("cartInfo")) {
+			for(CartInfoDTO dto :  (ArrayList<CartInfoDTO>)session.get("cartInfo")) {
+				totalPrice += dto.totalGoodsPrice();
 			}
-		}
-
-		if(! session.containsKey("cartInfo") ) {
-			session.put("cartInfo",  cartList);
-		}
-
-		for(CartInfoDTO dto : cartList) {
-			totalPrice += dto.totalGoodsPrice();
+			session.put("totalPrice", totalPrice);
 		}
 
 		return SUCCESS;
@@ -74,13 +48,6 @@ public class LookCartAction extends ActionSupport implements SessionAware {
 	 */
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
-	}
-
-	/**
-	 * @param cartList セットする cartList
-	 */
-	public void setCartList(ArrayList<CartInfoDTO> cartList) {
-		this.cartList = cartList;
 	}
 
 	/**

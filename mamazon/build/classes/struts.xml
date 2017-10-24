@@ -5,6 +5,10 @@
 
 <struts>
 <package name="com.internousdev.mamazon.action" extends="struts-default">
+	<!-- ホームの初期設定 -->
+	<action name="InitHome" class="com.internousdev.mamazon.action.InitHomeAction" method="execute">
+		<result name="success">home.jsp</result>
+	</action>
 	<!-- ホームへ飛ぶ -->
 	<action name="GoHome" class="com.internousdev.mamazon.action.GoHomeAction" method="execute">
 		<result name="success">home.jsp</result>
@@ -69,6 +73,14 @@
 	<!-- 商品を検索する -->
 	<action name="DisplayGoods" class="com.internousdev.mamazon.action.ShowDesiredGoodsAction" method="execute">
 		<result name="success">goodsList.jsp</result>
+	</action>
+	<!-- 商品の詳細を見る -->
+	<action name="ShowGoodsDetail" class="com.internousdev.mamazon.action.ShowGoodsDetailAction" method="execute">
+		<result name="success">goodsDetail.jsp</result>
+	</action>
+	<!-- 商品をカートに入れる -->
+	<action name="SelectGoodsIntoCart" class="com.internousdev.mamazon.action.SelectGoodsIntoCartAction" method="execute">
+		<result name="success">goodsIntoCartComplete.jsp</result>
 	</action>
 	<!-- 購入確認画面へ飛ぶ -->
 	<action name="GoBuyConfirm" class="com.internousdev.mamazon.action.GoBuyConfirmAction" method="execute">

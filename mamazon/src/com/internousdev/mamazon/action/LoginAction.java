@@ -7,8 +7,12 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.internousdev.mamazon.dao.CartInfoDAO;
+import com.internousdev.mamazon.dao.GoodsDAO;
 import com.internousdev.mamazon.dao.PurchaseDAO;
 import com.internousdev.mamazon.dao.UserDAO;
+import com.internousdev.mamazon.dto.CartInfoDTO;
+import com.internousdev.mamazon.dto.GoodsDTO;
 import com.internousdev.mamazon.dto.PurchaseDTO;
 import com.internousdev.mamazon.dto.UserDTO;
 import com.internousdev.mamazon.util.MyErrorConstants;
@@ -46,6 +50,7 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 	 * ログインする
 	 * @throws SQLException
 	 */
+	@SuppressWarnings("unchecked")
 	public String execute() throws SQLException {
 
 		//ログイン情報の取得
@@ -55,8 +60,21 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 		//ログインを試みる
 		if(dto.getLoginFlg()) {
 
-			//ログイン成功、ユーザー情報と購入履歴を保存
+			//ログイン成功、ユーザー情報とカート情報、及び購入履歴を追加保存
 			session.put("userInfo", dto);
+
+			CartInfoDAO cartInfoDAO = new CartInfoDAO();
+			if(! session.containsKey("cartInfo")) {
+				ArrayList<CartInfoDTO> cartList = new ArrayList<>();
+				session.put("cartInfo",  cartList);
+			}
+			for( CartInfoDTO cartInfoDTO : cartInfoDAO.getCartInfo( dto.getId() ) ) {
+				GoodsDAO goodsDAO = new GoodsDAO();
+				GoodsDTO goodsDTO = goodsDAO.getGoodsInfo(cartInfoDTO.getGoodsName());
+				cartInfoDTO.setGoodsInfo(goodsDTO);
+				cartInfoDTO.setOwner(((UserDTO) session.get("userInfo")).getUserName());
+				((ArrayList<CartInfoDTO>) session.get("cartInfo")).add(cartInfoDTO);
+			}
 
 			PurchaseDAO purchaseDAO = new PurchaseDAO();
 			ArrayList<PurchaseDTO> purchaseHistories = new ArrayList<>();

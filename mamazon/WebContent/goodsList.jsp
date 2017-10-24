@@ -25,10 +25,11 @@
 	</s:else>
 
 	<s:iterator value="goodsList">
-		<s:form action="selectGoodsIntoCart">
+		<s:form action="ShowGoodsDetail">
 			<img src= '<s:property value="imgLocated" />' >
 			<s:property value="name" />
 			&yen; <s:property value="price" />
+			<s:hidden name="goodsName" value="%{name}" />
 			<s:submit value="詳細を見る" />
 		</s:form>
 	</s:iterator>

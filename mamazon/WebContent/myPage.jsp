@@ -20,14 +20,17 @@
 		<s:if test='myPageDisplay=="myResister"'>
 			<jsp:include page="subjsp/myResister.jsp" />
 		</s:if>
-		<s:if test='myPageDisplay=="myPurchaseHistory"'>
+		<s:elseif test='myPageDisplay=="myPurchaseHistory"'>
 			<jsp:include page="subjsp/myPurchaseHistory.jsp" />
-		</s:if>
-		<s:if test='myPageDisplay=="myCart"'>
+		</s:elseif>
+		<s:elseif test='myPageDisplay=="myCart"'>
 			<jsp:include page="subjsp/myCart.jsp" />
-		</s:if>
-		<s:if test='myPageDisplay=="myWishList"'>
-		</s:if>
+		</s:elseif>
+		<s:elseif test='myPageDisplay=="myWishList"'>
+		</s:elseif>
+		<s:else>
+			<jsp:include page="subjsp/myResister.jsp" />
+		</s:else>
 	</s:div>
 </s:div>
 

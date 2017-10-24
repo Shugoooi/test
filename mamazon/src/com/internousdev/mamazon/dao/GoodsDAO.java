@@ -13,15 +13,16 @@ public class GoodsDAO {
 	DBConnector db = new DBConnector();
 	Connection con = db.getConnection();
 
-	GoodsDTO dto = new GoodsDTO();
 
 	/**
-	 * 商品名とカテゴリから商品情報を取得
+	 * 商品名から商品情報を取得
 	 * @param goodsName
-	 * @param category
 	 * @return
+	 * @throws SQLException
 	 */
-	public GoodsDTO getGoodsInfo(String goodsName) {
+	public GoodsDTO getGoodsInfo(String goodsName) throws SQLException {
+
+		GoodsDTO dto = new GoodsDTO();
 
 		String sql = "SELECT name, img_located, price, stock FROM goods_info where name=?";
 
@@ -41,6 +42,8 @@ public class GoodsDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
 
 		return dto;
@@ -50,8 +53,9 @@ public class GoodsDAO {
 	 * カテゴリに当てはまる商品のリストを取得する
 	 * @param category
 	 * @return
+	 * @throws SQLException
 	 */
-	public ArrayList<GoodsDTO> collectGoodsMatchedCategory(String category) {
+	public ArrayList<GoodsDTO> collectGoodsMatchedCategory(String category) throws SQLException {
 
 		ArrayList<GoodsDTO> goodsList = new ArrayList<>();
 
@@ -63,7 +67,8 @@ public class GoodsDAO {
 			ps.setString(1, category);
 			ResultSet rs = ps.executeQuery();
 
-			if( rs.next() ) {
+			while( rs.next() ) {
+				GoodsDTO dto = new GoodsDTO();
 				dto.setGoodsInfo(rs.getString("name"),
 								rs.getString("img_located"),
 								rs.getInt("price"),
@@ -74,22 +79,33 @@ public class GoodsDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
 
 		return goodsList;
 	}
 
+
+	/**
+	 * キーワードから商品を検索する
+	 * @param keyword
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<GoodsDTO> searchGoodsMatchedWords(String keyword) throws SQLException {
+
 		ArrayList<GoodsDTO> goodsList = new ArrayList<>();
 
-		String sql = "SELECT name, img_located, price, stock FROM goods_info where name LIKE '%s%'";
+		String sql = "SELECT name, img_located, price, stock FROM goods_info where name LIKE \'%" + keyword + "%\'";
 
 		try {
 
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
-			if( rs.next() ) {
+			while( rs.next() ) {
+				GoodsDTO dto = new GoodsDTO();
 				dto.setGoodsInfo(rs.getString("name"),
 								rs.getString("img_located"),
 								rs.getInt("price"),

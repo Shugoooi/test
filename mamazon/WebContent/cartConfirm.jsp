@@ -17,9 +17,16 @@
 	<s:if test="! #session.cartInfo.isEmpty()">
 	<s:iterator value="#session.cartInfo">
 		<img src= '<s:property value="imgLocated" />' >
+		<s:property value="name" />
 		単価：<s:property value="price" />円
-		購入：<s:property value="buyCount" />個
+		個数：<s:property value="buyCount" />個
 	</s:iterator>
+
+	<div class="right">
+		合計<s:property value="totalPrice" />円
+		<a href=' <s:url action="GoBuyConfirm" /> '>買う</a>
+	</div>
+
 	</s:if>
 	<s:else>
 		<div>
@@ -27,10 +34,6 @@
 		</div>
 	</s:else>
 
-	<div class="right">
-		合計<s:property value="totalPrice" />円
-		<a href=' <s:url action="GoBuyConfirm" /> '>買う</a>
-	</div>
 </s:div>
 
 <s:div id="footer">

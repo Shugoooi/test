@@ -7,10 +7,6 @@ package com.internousdev.mamazon.dto;
  *
  */
 public class UserDTO {
-	/**
-	 * 各々を識別するためのID(意味がわからない)
-	 */
-	private int masterId;
 
 	/**
 	 * ID

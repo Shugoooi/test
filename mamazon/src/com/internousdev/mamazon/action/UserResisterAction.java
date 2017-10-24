@@ -1,5 +1,6 @@
 package com.internousdev.mamazon.action;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class UserResisterAction extends ActionSupport implements SessionAware {
 
 	private Map<String, Object> session = new HashMap<>();
 
-	public String execute() {
+	public String execute() throws SQLException {
 		UserDAO dao = new UserDAO();
 		dao.setUserInfo((UserDTO) session.get("newUser"));
 

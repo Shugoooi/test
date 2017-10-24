@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.internousdev.mamazon.dto.UserDTO;
+import com.internousdev.mamazon.util.MyErrorConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -12,7 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author internousdev
  *
  */
-public class GoBuyConfirmAction extends ActionSupport implements SessionAware {
+public class GoBuyConfirmAction extends ActionSupport implements SessionAware, MyErrorConstants {
 
 	/**
 	 * セッション
@@ -20,16 +22,22 @@ public class GoBuyConfirmAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> session = new HashMap<>();
 
 	/**
+	 * ログイン要求メッセージ
+	 */
+	private String loginRequired = null;
+
+	/**
 	 * 購入確認画面へ飛ぶ
 	 */
 	public String execute() {
 
-		if(session.containsKey("loginFlg")) {
-			if( (Boolean) session.get("loginFlg") ) {
+		if(session.containsKey("userInfo")) {
+			if( ((UserDTO) session.get("userInfo")).getLoginFlg() ) {
 				return SUCCESS;
 			}
 		}
 
+		 loginRequired = LOGIN_REQUIRED_MESSAGE;
 		return "loginRequired";
 	}
 
@@ -38,5 +46,12 @@ public class GoBuyConfirmAction extends ActionSupport implements SessionAware {
 	 */
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+
+	/**
+	 * @return loginRequired
+	 */
+	public String getLoginRequired() {
+		return loginRequired;
 	}
 }

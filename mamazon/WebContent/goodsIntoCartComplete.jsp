@@ -13,17 +13,7 @@
 
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
-<s:div id="main">
-		<s:form action="SelectGoodsIntoCart">
-			<h1><s:property value="dto.getName()" /></h1>
-			<img src= '<s:property value="dto.getImgLocated()" />' >
-			&yen; <s:property value="dto.getPrice()" />
-			<s:select list="{1, 2, 3, 4, 5}" name="buyCount" />
-			<s:submit value="カートに入れる" />
-		</s:form>
-
-
-</s:div>
+	商品をカートに入れました。
 
 <s:div id="footer">
 	利用規約｜プライバシー規約｜2017 Mamazon.com, Inc. or its attributes

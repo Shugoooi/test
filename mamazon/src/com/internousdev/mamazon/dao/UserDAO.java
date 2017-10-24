@@ -22,8 +22,9 @@ public class UserDAO {
 	 * @param loginId
 	 * @param loginPassword
 	 * @return
+	 * @throws SQLException
 	 */
-	public UserDTO getUserInfo(String loginId, String loginPassword) {
+	public UserDTO getUserInfo(String loginId, String loginPassword) throws SQLException {
 
 		UserDTO userDTO = new UserDTO();
 
@@ -44,6 +45,8 @@ public class UserDAO {
 
 		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
 
 		return userDTO;
@@ -52,8 +55,9 @@ public class UserDAO {
 	/**
 	 * 与えられたユーザー情報をDBに登録
 	 * @param userDTO
+	 * @throws SQLException
 	 */
-	public void setUserInfo(UserDTO userDTO){
+	public void setUserInfo(UserDTO userDTO) throws SQLException{
 
 		String sql = "INSERT INTO user_info(name, id, pass, tel, mail, address) VALUES(?, ?, ?, ?, ?, ?);";
 
@@ -69,6 +73,8 @@ public class UserDAO {
 
 		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			con.close();
 		}
 	}
 

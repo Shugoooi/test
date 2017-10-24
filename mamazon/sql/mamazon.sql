@@ -33,7 +33,7 @@ create table purchase_history(purchaser varchar(32),
 
 
 INSERT INTO user_info(id, pass, name, tel, address, birthday) VALUES
-( "test", "test", "test", 0801234567, "sldkfj@sldkfj.cm", 0);
+( "f", "f", "f", 0801234567, "sldkfj@sldkfj.cm", 0);
 
 INSERT INTO goods_info(name, img_located, category, price, stock) VALUES
 ("C", "", "fire_extinguisher", 1000, 10),

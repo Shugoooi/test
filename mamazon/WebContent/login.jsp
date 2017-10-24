@@ -15,6 +15,7 @@
 
 <s:div id="main">
 	<s:property value="loginError" />
+	<s:property value="loginRequired" />
 	<s:form action="Login" theme="simple">
 		<ul>
 			<li>ID<s:div><s:textfield name="loginId" /></s:div></li>

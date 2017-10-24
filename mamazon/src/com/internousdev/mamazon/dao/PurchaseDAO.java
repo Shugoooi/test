@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.internousdev.mamazon.dto.CartInfoDTO;
 import com.internousdev.mamazon.dto.PurchaseDTO;
 import com.internousdev.mamazon.util.DBConnector;
 
@@ -18,6 +19,32 @@ public class PurchaseDAO {
 
 	DBConnector db = new DBConnector();
 	Connection con = db.getConnection();
+
+
+	/**
+	 * 購入履歴を追加する
+	 * @param cartList
+	 * @throws SQLException
+	 */
+	public void setPurchaseHistories(ArrayList<CartInfoDTO> cartList) throws SQLException {
+		String sql = "INSERT INTO purchase_history(purchaser, goods_name, goods_price, purchase_count) VALUES(?, ?, ?, ?)";
+
+	try{
+		for(CartInfoDTO dto : cartList) {
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, dto.getOwner());
+		ps.setString(2, dto.getGoodsName());
+		ps.setInt(3, dto.getPrice());
+		ps.setInt(4, dto.getBuyCount());
+		ps.execute();
+		}
+
+	} catch(SQLException e) {
+		e.printStackTrace();
+	} finally {
+		con.close();
+	}
+}
 
 	/**
 	 * 	購入履歴をPurchaseDTOリストで返す

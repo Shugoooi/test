@@ -10,7 +10,7 @@ public class CartInfoDTO extends GoodsDTO {
 	/**
 	 * １つのカート情報のID
 	 */
-	private int owner;
+	private String owner;
 
 	/**
 	 * 商品名
@@ -23,11 +23,32 @@ public class CartInfoDTO extends GoodsDTO {
 	private int buyCount;
 
 	/**
+	 * @param owner セットする owner
+	 */
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	/**
 	 * 商品名の取得
 	 * @return goodsName
 	 */
 	public String getGoodsName() {
 		return goodsName;
+	}
+
+	/**
+	 * @return owner
+	 */
+	public String getOwner() {
+		return owner;
+	}
+
+	/**
+	 * @return buyCount
+	 */
+	public int getBuyCount() {
+		return buyCount;
 	}
 
 	/**

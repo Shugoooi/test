@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Mamazon</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -20,12 +21,12 @@
 		個数：<s:property value="buyCount" />個
 	</s:iterator>
 
-		合計<s:property value="totalPrice" />円
+		合計<s:property value="#session.totalPrice" />円
 
 		購入情報
-		<s:property value="#session.userName" />
-		<s:property value="#session.userAddress" />
-		<s:property value="#session.Card" />
+		<s:property value='#session.get("userInfo").getUserName()' />
+		<s:property value='#session.get("userInfo").getAddress()' />
+		<s:property value='#session.get("userInfo").getUserName()' />
 		<a href=' <s:url action="GoBuyComplete" /> '>本当に買う</a>
 
 </s:div>

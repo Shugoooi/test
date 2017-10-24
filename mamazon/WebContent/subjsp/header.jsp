@@ -6,7 +6,7 @@
 	<ul>
 		<li><a href=' <s:url action="GoHome" /> '>ホーム</a></li>
 		<li><s:form action="DisplayGoods">
-			<s:textfield name="keyword" /><s:submit value="検索" /><s:hidden name="howSearchGoods" value="searchForm" />
+			<s:textfield name="keyword" theme="simple" /><s:submit value="検索" theme="simple" /><s:hidden name="howSearchGoods" value="searchForm" />
 		</s:form></li>
 		<s:if test="#session.userInfo.getLoginFlg()">
 			<li><a href=' <s:url action="GoMyPage" /> '>マイページ</a></li>

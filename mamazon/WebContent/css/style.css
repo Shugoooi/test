@@ -6,9 +6,14 @@
 	background-color: MidnightBlue;
 }
 
+#header ul {
+	margin: 0;
+	padding: 0;
+}
+
 #header li {
 	float: left;
-	width: 100px;
+	width: 200px;
 	list-style: none;
 }
 

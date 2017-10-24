@@ -15,6 +15,12 @@
 
 <s:div id="main">
 	<s:div id="left">
+		<ul>
+			<li><a href='<s:url action="MyPageTransition" />' >登録情報確認</a></li>
+			<li><a href=''>購入履歴</a></li>
+			<li><a href=''>カートを見る</a></li>
+			<li><a href=''>欲しいものリスト</a></li>
+		</ul>
 	</s:div>
 	<s:div id="right">
 		<s:if test='myPageDisplay=="myResister"'>

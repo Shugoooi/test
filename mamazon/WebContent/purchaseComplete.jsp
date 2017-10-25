@@ -13,12 +13,9 @@
 
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
-
 <s:div id="main">
-	<h3>Q&A</h3>
+	買えました
 
-
-	問い合わせは<a href=' <s:url action="GoInquiry" /> '>こちらまで</a>
 
 </s:div>
 

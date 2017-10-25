@@ -60,13 +60,18 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 		//ログインを試みる
 		if(dto.getLoginFlg()) {
 
-			//ログイン成功、ユーザー情報とカート情報、及び購入履歴を追加保存
+			//ログイン成功、ユーザー情報とカート情報、及び購入履歴を保存及び追加
 			session.put("userInfo", dto);
 
+			//カート情報がすでにあれば（非ログイン時の操作により起こりうる）それも保存しておく
 			CartInfoDAO cartInfoDAO = new CartInfoDAO();
 			if(! session.containsKey("cartInfo")) {
 				ArrayList<CartInfoDTO> cartList = new ArrayList<>();
 				session.put("cartInfo",  cartList);
+			} else {
+				for(CartInfoDTO cartInfoDTO : (ArrayList<CartInfoDTO>) session.get("cartInfo")) {
+					cartInfoDTO.setOwner( ((UserDTO) session.get("userInfo")).getUserName() );
+				}
 			}
 			for( CartInfoDTO cartInfoDTO : cartInfoDAO.getCartInfo( dto.getId() ) ) {
 				GoodsDAO goodsDAO = new GoodsDAO();
@@ -76,9 +81,10 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 				((ArrayList<CartInfoDTO>) session.get("cartInfo")).add(cartInfoDTO);
 			}
 
+
 			PurchaseDAO purchaseDAO = new PurchaseDAO();
 			ArrayList<PurchaseDTO> purchaseHistories = new ArrayList<>();
-			purchaseHistories.addAll(purchaseDAO.getPurchaseHistories( ((UserDTO)session.get("userInfo")).getUserName() ));
+			purchaseHistories.addAll(purchaseDAO.getPurchaseHistories( ((UserDTO) session.get("userInfo")).getUserName() ));
 			session.put("purchaseHistories", purchaseHistories);
 
 			return SUCCESS;

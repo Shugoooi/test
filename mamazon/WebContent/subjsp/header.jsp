@@ -3,10 +3,16 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <s:div id="header">
+	<s:div id="headerLogo">
+		<a href= '<s:url action="GoHome" />' ><img src="img/mamazon_logo.png" alt="ロゴ" height="50px"></a>
+		<s:if test="#session.userInfo.getLoginFlg()">
+			<a id="logout_button" href= '<s:url action="Logout" />' >ログアウト</a>
+		</s:if>
+	</s:div>
 	<ul>
 		<li><a href=' <s:url action="GoHome" /> '>ホーム</a></li>
-		<li><s:form action="DisplayGoods">
-			<s:textfield name="keyword" theme="simple" /><s:submit value="検索" theme="simple" /><s:hidden name="howSearchGoods" value="searchForm" />
+		<li><s:form id="searchForm" action="DisplayGoods">
+			<s:textfield name="keyword" theme="simple" /><s:submit id="searchButton" value="検索" theme="simple" /><s:hidden name="howSearchGoods" value="searchForm" />
 		</s:form></li>
 		<s:if test="#session.userInfo.getLoginFlg()">
 			<li><a href=' <s:url action="GoMyPage" /> '>マイページ</a></li>

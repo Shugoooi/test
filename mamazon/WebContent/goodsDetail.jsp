@@ -18,7 +18,7 @@
 			<h1><s:property value="dto.getName()" /></h1>
 			<img src= '<s:property value="dto.getImgLocated()" />' >
 			&yen; <s:property value="dto.getPrice()" />
-			<s:select list="{1, 2, 3, 4, 5}" name="buyCount" />
+			<s:select list="{1, 2, 3, 4, 5}" name="purchaseCount" />
 			<s:submit value="カートに入れる" />
 		</s:form>
 

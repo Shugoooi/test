@@ -20,7 +20,7 @@ public class CartInfoDTO extends GoodsDTO {
 	/**
 	 * 購入予定の数
 	 */
-	private int buyCount;
+	private int purchaseCount;
 
 	/**
 	 * @param owner セットする owner
@@ -45,20 +45,20 @@ public class CartInfoDTO extends GoodsDTO {
 	}
 
 	/**
-	 * @return buyCount
+	 * @return purchaseCount
 	 */
-	public int getBuyCount() {
-		return buyCount;
+	public int getPurchaseCount() {
+		return purchaseCount;
 	}
 
 	/**
 	 * カート情報の取得
 	 * @param goodsName
-	 * @param buyCount
+	 * @param purchaseCount
 	 */
-	public void setCartInfo(String goodsName, int buyCount) {
+	public void setCartInfo(String goodsName, int purchaseCount) {
 		this.goodsName = goodsName;
-		this.buyCount = buyCount;
+		this.purchaseCount = purchaseCount;
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class CartInfoDTO extends GoodsDTO {
 	 * @return
 	 */
 	public int totalGoodsPrice() {
-		return price * buyCount;
+		return price * purchaseCount;
 	}
 
 }

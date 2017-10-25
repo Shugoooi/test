@@ -11,4 +11,6 @@ public abstract interface MyErrorConstants {
 
 	public static final String LOGIN_REQUIRED_MESSAGE = "ログインしてください";
 
+	public static final String ID_DUPLICATION_MESSAGE = "そのIDは既に使われています";
+
 }

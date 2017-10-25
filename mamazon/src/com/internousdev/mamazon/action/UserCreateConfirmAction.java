@@ -1,11 +1,14 @@
 package com.internousdev.mamazon.action;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.internousdev.mamazon.dao.UserDAO;
 import com.internousdev.mamazon.dto.UserDTO;
+import com.internousdev.mamazon.util.MyErrorConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -13,7 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author internousdev
  *
  */
-public class UserCreateConfirmAction extends ActionSupport  implements SessionAware {
+public class UserCreateConfirmAction extends ActionSupport  implements SessionAware, MyErrorConstants {
 
 	/**
 	 * セッション
@@ -52,15 +55,28 @@ public class UserCreateConfirmAction extends ActionSupport  implements SessionAw
 	private String newAddress;
 
 	/**
+	 * エラーメッセージ
+	 */
+	private String errMsg;
+
+	/**
 	 * 新規アカウント情報を確認する
 	 * @return
+	 * @throws SQLException
 	 */
-	public String execute() {
+	public String execute() throws SQLException {
 
 		//入力したユーザー情報をセッションへ保存する
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserInfo(newName, newId, newPassword, newTel, newMail, newAddress);
 		session.put("newUser",  userDTO);
+
+		//入力されたIDが使用できるものか確認
+		UserDAO dao = new UserDAO();
+		if(! dao.idChk(newId)) {
+			errMsg = ID_DUPLICATION_MESSAGE;
+			return ERROR;
+		}
 
 		return SUCCESS;
 	}
@@ -119,5 +135,13 @@ public class UserCreateConfirmAction extends ActionSupport  implements SessionAw
 	 */
 	public void setNewAddress(String newAddress) {
 		this.newAddress = newAddress;
+	}
+
+
+	/**
+	 * @return errMsg
+	 */
+	public String getErrMsg() {
+		return errMsg;
 	}
 }

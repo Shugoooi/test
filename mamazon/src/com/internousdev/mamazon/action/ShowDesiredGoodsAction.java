@@ -38,10 +38,18 @@ public class ShowDesiredGoodsAction extends ActionSupport {
 	public String execute() throws SQLException {
 		GoodsDAO dao = new GoodsDAO();
 
+		//カテゴリで探しているのか、それとも検索フォームから探しているのか
 		if(howSearchGoods.equals("category")) {
+
 			goodsList.addAll(dao.collectGoodsMatchedCategory(category));
+
 		} else if(howSearchGoods.equals("searchForm")) {
-			goodsList.addAll(dao.searchGoodsMatchedWords(keyword));
+
+			if(keyword == null){
+				return ERROR;
+			} else{
+				goodsList.addAll(dao.searchGoodsMatchedWords(keyword));
+			}
 		}
 
 		return SUCCESS;

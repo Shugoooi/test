@@ -23,13 +23,13 @@ public class SelectGoodsIntoCartAction extends ActionSupport implements SessionA
 
 	private Map<String, Object> session = new HashMap<>();
 
-	private int buyCount;
+	private int purchaseCount;
 
 	@SuppressWarnings("unchecked")
 	public String execute() throws SQLException {
 		//カートに入れる商品の情報を取得
 		CartInfoDTO cartInfoDTO = new CartInfoDTO();
-		cartInfoDTO.setCartInfo(session.get("targetGoods").toString(), buyCount);
+		cartInfoDTO.setCartInfo(session.get("targetGoods").toString(), purchaseCount);
 		GoodsDAO goodsDAO = new GoodsDAO();
 		GoodsDTO dto = goodsDAO.getGoodsInfo(session.get("targetGoods").toString());
 		cartInfoDTO.setGoodsInfo(dto);
@@ -63,9 +63,9 @@ public class SelectGoodsIntoCartAction extends ActionSupport implements SessionA
 	}
 
 	/**
-	 * @param buyCount セットする buyCount
+	 * @param purchaseCount セットする purchaseCount
 	 */
-	public void setBuyCount(int buyCount) {
-		this.buyCount = buyCount;
+	public void setPurchaseCount(int purchaseCount) {
+		this.purchaseCount = purchaseCount;
 	}
 }

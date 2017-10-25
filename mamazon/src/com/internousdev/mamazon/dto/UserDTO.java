@@ -39,21 +39,6 @@ public class UserDTO {
 	private String address;
 
 	/**
-	 * お誕生日
-	 */
-	private int birthday;
-
-	/**
-	 * アカウント作成日
-	 */
-	private int createDate;
-
-	/**
-	 * アカウント更新日
-	 */
-	private int updateDate;
-
-	/**
 	 * ログインフラグ
 	 */
 	private boolean loginFlg = false;

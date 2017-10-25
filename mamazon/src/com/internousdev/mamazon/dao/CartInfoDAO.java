@@ -34,7 +34,7 @@ public class CartInfoDAO {
 
 		ArrayList<CartInfoDTO> cartInfoList = new ArrayList<>();
 
-		String sql = "SELECT goods_name, buy_count FROM cart_info where owner = ?";
+		String sql = "SELECT goods_name, purchase_count FROM cart_info where owner = ?";
 
 		try {
 
@@ -45,7 +45,7 @@ public class CartInfoDAO {
 			while( rs.next() ) {
 				CartInfoDTO dto = new CartInfoDTO();
 				dto.setCartInfo(rs.getString("goods_name"),
-								rs.getInt("buy_count"));
+								rs.getInt("purchase_count"));
 				cartInfoList.add(dto);
 			}
 
@@ -67,12 +67,12 @@ public class CartInfoDAO {
 	 */
 	public void setCartInfo(CartInfoDTO dto) throws SQLException {
 
-		String sql = "INSERT INTO cart_info(goods_name, buy_count, owner) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO cart_info(goods_name, purchase_count, owner) VALUES(?, ?, ?)";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, dto.getGoodsName());
-			ps.setInt(2, dto.getBuyCount());
+			ps.setInt(2, dto.getPurchaseCount());
 			ps.setString(3, dto.getOwner());
 			ps.execute();
 		} catch (SQLException e) {

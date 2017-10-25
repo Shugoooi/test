@@ -41,7 +41,7 @@
 				<s:div><s:property value="#session.newUser.getAddress()" /></s:div>
 			</li>
 			<li>
-				<s:submit value="登録" />
+				<s:submit value="登録" /><input type="button" value="修正する" onclick="location.href= '<s:url action="GoUserCreate" />' " />
 			</li>
 		</ul>
 	</s:form>

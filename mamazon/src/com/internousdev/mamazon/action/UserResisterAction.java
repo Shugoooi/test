@@ -22,6 +22,7 @@ public class UserResisterAction extends ActionSupport implements SessionAware {
 	public String execute() throws SQLException {
 		UserDAO dao = new UserDAO();
 		dao.setUserInfo((UserDTO) session.get("newUser"));
+		session.remove("newUser");
 
 		return SUCCESS;
 	}

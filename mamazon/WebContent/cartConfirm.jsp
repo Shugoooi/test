@@ -14,17 +14,20 @@
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
 <s:div id="main">
+
+	<h3>カートの確認</h3>
+
 	<s:if test="! #session.cartInfo.isEmpty()">
 	<s:iterator value="#session.cartInfo">
 		<img src= '<s:property value="imgLocated" />' >
 		<s:property value="name" />
 		単価：<s:property value="price" />円
-		個数：<s:property value="buyCount" />個
+		個数：<s:property value="purchaseCount" />個
 	</s:iterator>
 
 	<div class="right">
 		合計<s:property value="totalPrice" />円
-		<a href=' <s:url action="GoBuyConfirm" /> '>買う</a>
+		<a href=' <s:url action="GoPurchaseConfirm" /> '>買う</a>
 	</div>
 
 	</s:if>

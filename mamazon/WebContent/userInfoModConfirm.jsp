@@ -41,7 +41,7 @@
 				<s:div><s:property value="#session.newUser.getAddress()" /></s:div>
 			</li>
 			<li>
-				<s:submit value="変更を確定" />
+				<s:submit value="変更を確定" /><input type="button" value="修正する" onclick="location.href= '<s:url action="GoUserInfoMod" />' " />
 			</li>
 		</ul>
 	</s:form>

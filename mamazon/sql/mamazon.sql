@@ -45,4 +45,4 @@ INSERT INTO goods_info(name, img_located, category, price, stock) VALUES
 ("sj", "", "seedling", 100, 10),
 ("mm", "", "seedling", 200, 10),
 ("sdf", "", "seedling", 2000, 10),
-("jack", "", "seedling", 298000, 10);
+("jack", "img/jack.jpg", "seedling", 298000, 10);

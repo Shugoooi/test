@@ -18,7 +18,7 @@
 		<s:div>検索結果</s:div>
 	</s:if>
 	<s:elseif test='howSearchGoods.equals("category")'>
-		<s:div><s:property value="category" />の一覧</s:div>
+		<s:div><s:property value="#session.categoryMap.get(category)" />の一覧</s:div>
 	</s:elseif>
 	<s:else>
 		<s:div>ベストセラー</s:div>

@@ -13,12 +13,21 @@
 
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
-
 <s:div id="main">
-	<h3>Q&A</h3>
+	<s:iterator value="#session.cartInfo">
+		<img src= '<s:property value="imgLocated" />' >
+		<s:property value="goodsName" />
+		単価：<s:property value="price" />円
+		個数：<s:property value="purchaseCount" />個
+	</s:iterator>
 
+		合計<s:property value="#session.totalPrice" />円
 
-	問い合わせは<a href=' <s:url action="GoInquiry" /> '>こちらまで</a>
+		購入情報
+		<s:property value='#session.get("userInfo").getUserName()' />
+		<s:property value='#session.get("userInfo").getAddress()' />
+		<s:property value='#session.get("userInfo").getUserName()' />
+		<a href=' <s:url action="GoPurchaseComplete" /> '>本当に買う</a>
 
 </s:div>
 

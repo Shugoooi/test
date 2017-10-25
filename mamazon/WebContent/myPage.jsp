@@ -8,6 +8,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Mamazon</title>
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+
+#left {
+	float: left;
+	width: 20%;
+	margin-left: 0;
+	margin-right: 30px;
+}
+
+#right{
+	float: left;
+	width: 70%;
+}
+.myPageContents {
+	border: none;
+	background-color: white;
+	font-size: 15px;
+}
+
+.myPageContents:hover {
+	text-decoration: underline;
+}
+
+</style>
 </head>
 <body>
 
@@ -16,10 +41,10 @@
 <s:div id="main">
 	<s:div id="left">
 		<ul>
-			<li><a href='<s:url action="MyPageTransition" />' >登録情報確認</a></li>
-			<li><a href=''>購入履歴</a></li>
-			<li><a href=''>カートを見る</a></li>
-			<li><a href=''>欲しいものリスト</a></li>
+			<li><s:form action="GoMyPage"><s:submit class="myPageContents" value="登録情報" /><s:hidden name="myPageDisplay" value="myResister" /></s:form></li>
+			<li><s:form action="GoMyPage"><s:submit class="myPageContents" value="購入履歴" /><s:hidden name="myPageDisplay" value="myPurchaseHistory" /></s:form></li>
+			<li><s:form action="GoMyPage"><s:submit class="myPageContents" value="カート情報" /><s:hidden name="myPageDisplay" value="myCart" /></s:form></li>
+			<li><s:form action="GoMyPage"><s:submit class="myPageContents" value="欲しいものリスト" /><s:hidden name="myPageDisplay" value="null" /></s:form></li>
 		</ul>
 	</s:div>
 	<s:div id="right">

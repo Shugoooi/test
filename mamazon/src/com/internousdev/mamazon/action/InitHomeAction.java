@@ -17,12 +17,22 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class InitHomeAction extends ActionSupport implements SessionAware {
 
+	/**
+	 * セッション
+	 */
 	private Map<String, Object> session = new HashMap<>();
 
+	/**
+	 * カテゴリ一覧
+	 */
 	private Map<String, String> categoryMap = new HashMap<>();
 
+	/**
+	 * ホーム画面の初期設定
+	 */
 	public String execute() {
 
+		//現存するカテゴリの追加
 		categoryMap.put("fire_extinguisher",  "消火器");
 		categoryMap.put("flame_thrower",  "火炎放射器");
 		categoryMap.put("seedling",  "苗木");

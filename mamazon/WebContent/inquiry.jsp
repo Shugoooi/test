@@ -14,8 +14,15 @@
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
 <s:div id="main">
-	問い合わせ
-	<s:form action="InquiryConfirm" >
+	<h3>問い合わせ</h3>
+
+	<s:property value="mailErr" />
+
+
+	<s:form action="InquiryConfirm" theme="simple" >
+		<s:div>名前：<s:textfield name="userName" value="%{#session.userName}" /></s:div>
+		<s:div>返信用メールアドレス：<s:textfield name="mail" value="%{mail}" /></s:div>
+		<s:div>問い合わせ内容</s:div>
 		<s:textarea name="inquiry" cols="40" rows="10" />
 		<s:submit value="送信" />
 	</s:form>

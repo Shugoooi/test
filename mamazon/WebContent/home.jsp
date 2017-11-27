@@ -9,23 +9,6 @@
 <title>Mamazon</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-ul .bxslider {
-  clear: both;
-  width: 300px;
-  height: 500px;
-  position: relative;
-}
-ul .bxslider li s:submit {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-}
-
 .categories {
 	border: none;
 	background-color: white;
@@ -37,12 +20,13 @@ ul .bxslider li s:submit {
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="js/jquery.bxslider.min.js"></script>
-    <link href="css/jquery.bxslider.css" rel="stylesheet" />
+<script src="js/jquery.bxslider.min.js"></script>
+<link href="css/jquery.bxslider.css" rel="stylesheet" />
     <script type="text/javascript">
             $(document).ready(function(){
                 $('.bxslider').bxSlider({
-                    auto: true,
+                	slideWidth: 302,
+                    auto: true
                 });
         	});
     </script>

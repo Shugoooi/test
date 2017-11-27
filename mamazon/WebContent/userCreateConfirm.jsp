@@ -14,36 +14,53 @@
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
 <s:div id="main">
+	<s:actionerror />
 	<s:form action="UserCreateComplete">
 		<ul>
 			<li>
 				名前
-				<s:div><s:property value="#session.newUser.getUserName()" /></s:div>
+				<s:div><s:property value="newName" /></s:div>
 			</li>
 			<li>
 				ID
-				<s:div><s:property value="#session.newUser.getId()" /></s:div>
+				<s:div><s:property value="newId" /></s:div>
 			</li>
 			<li>
 				パスワード
-				<s:div><s:property value="#session.newUser.getPassword()" /></s:div>
+				<s:div><s:property value="newPassword" /></s:div>
 			</li>
 			<li>
 				電話番号
-				<s:div><s:property value="#session.newUser.getTel()" /></s:div>
+				<s:div><s:property value="newTel" /></s:div>
 			</li>
 			<li>
 				メールアドレス
-				<s:div><s:property value="#session.newUser.getMail()" /></s:div>
+				<s:div><s:property value="newMail" /></s:div>
 			</li>
 			<li>
 				住所
-				<s:div><s:property value="#session.newUser.getAddress()" /></s:div>
+				<s:div><s:property value="newAddress" /></s:div>
 			</li>
+			<s:hidden name="newName" value="%{newName}" />
+			<s:hidden name="newId" value="%{newId}" />
+			<s:hidden name="newPassword" value="%{newPassword}" />
+			<s:hidden name="newTel" value="%{newTel}" />
+			<s:hidden name="newMail" value="%{newMail}" />
+			<s:hidden name="newAddress" value="%{newAddress}" />
+
 			<li>
-				<s:submit value="登録" /><input type="button" value="修正する" onclick="location.href= '<s:url action="GoUserCreate" />' " />
+				<s:submit value="登録" />
 			</li>
 		</ul>
+	</s:form>
+	<s:form action="GoUserCreate">
+			<s:hidden name="newName" value="newName" />
+			<s:hidden name="newId" value="%{newId}" />
+			<s:hidden name="newPassword" value="%{newPassword}" />
+			<s:hidden name="newTel" value="%{newTel}" />
+			<s:hidden name="newMail" value="%{newMail}" />
+			<s:hidden name="newAddress" value="%{newAddress}" />
+			<s:submit value="修正する" />
 	</s:form>
 
 </s:div>

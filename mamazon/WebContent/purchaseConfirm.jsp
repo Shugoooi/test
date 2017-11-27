@@ -14,20 +14,24 @@
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
 <s:div id="main">
-	<s:iterator value="#session.cartInfo">
-		<img src= '<s:property value="imgLocated" />' >
-		<s:property value="goodsName" />
-		単価：<s:property value="price" />円
-		個数：<s:property value="purchaseCount" />個
+	<s:iterator value="cartList">
+		<s:div id="goodsList">
+			<s:div><s:property value="goodsName" /></s:div>
+			<img src= '<s:property value="imgLocated" />' >
+			<s:div>単価：<s:property value="price" />円</s:div>
+			<s:div>個数：<s:property value="purchaseCount" />個</s:div>
+		</s:div>
 	</s:iterator>
 
-		合計<s:property value="#session.totalPrice" />円
+		<s:div>合計<s:property value="totalPrice" />円</s:div>
 
-		購入情報
-		<s:property value='#session.get("userInfo").getUserName()' />
-		<s:property value='#session.get("userInfo").getAddress()' />
-		<s:property value='#session.get("userInfo").getUserName()' />
-		<a href=' <s:url action="GoPurchaseComplete" /> '>本当に買う</a>
+		<s:div>
+			購入情報
+			<s:property value='#session.get("userInfo").getUserName()' />
+			<s:property value='#session.get("userInfo").getAddress()' />
+			<s:property value='#session.get("userInfo").getUserName()' />
+			<a href=' <s:url action="GoPurchaseComplete" /> '>本当に買う</a>
+		</s:div>
 
 </s:div>
 

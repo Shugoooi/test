@@ -8,6 +8,5 @@
 <meta http-equiv="refresh" content="0; url=<s:url action="InitHome" />">
 </head>
 <body>
-test
 </body>
 </html>

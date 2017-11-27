@@ -1,12 +1,12 @@
 drop database if exists mamazon;
-create database mamazon CHARACTER SET utf8;
+create database mamazon DEFAULT CHARACTER SET utf8;
 
 use mamazon;
 
 create table user_info(id varchar(32) primary key,
 						pass varchar(32),
 						name varchar(32),
-						tel int(11),
+						tel varchar(11),
 						mail varchar(255),
 						address varchar(255),
 						birthday date,
@@ -22,27 +22,30 @@ create table goods_info(name varchar(255) primary key,
 						update_time datetime);
 
 create table cart_info(goods_name varchar(255),
-						buy_count int,
+						purchase_number int,
 						owner varchar(32));
 
 create table purchase_history(purchaser varchar(32),
 								goods_name varchar(255),
 								goods_price int,
-								purchase_count int,
+								purchase_number int,
 								purchase_date datetime);
 
 
-INSERT INTO user_info(id, pass, name, tel, address, birthday) VALUES
-( "f", "f", "f", 0801234567, "sldkfj@sldkfj.cm", 0);
+INSERT INTO user_info(id, pass, name, tel, mail, address) VALUES
+( "f", "f", "me", "0801234567", "sldkfj@sldkfj.cm", "まち"),
+( "a", "a", "admin", "1234567890", "test@gasdf.com", "東京");
 
-INSERT INTO goods_info(name, img_located, category, price, stock) VALUES
-("C", "", "fire_extinguisher", 1000, 10),
-("G", "", "fire_extinguisher", 3000, 10),
-("S", "", "fire_extinguisher", 8000, 10),
-("A", "", "flame_thrower", 10000, 10),
-("J", "", "flame_thrower", 30000, 10),
-("F", "", "flame_thrower", 80000, 10),
-("sj", "", "seedling", 100, 10),
-("mm", "", "seedling", 200, 10),
-("sdf", "", "seedling", 2000, 10),
-("jack", "img/jack.jpg", "seedling", 298000, 10);
+INSERT INTO goods_info(name, img_located, category, price, stock, create_date) VALUES
+("普通の消火器", "img/普通の消火器.jpg", "fire_extinguisher", 1500, 10, NOW()),
+("置くやつ付きの消火器", "img/置くやつ付きの消火器.jpg", "fire_extinguisher", 2000, 10, NOW()),
+("消火器風の何か", "img/消火器風の何か.jpg", "fire_extinguisher", 12000, 3, NOW()),
+("高性能消火器", "img/高性能消火器.jpg", "fire_extinguisher", 5000, 10, NOW()),
+("普通の火炎放射器", "img/普通の火炎放射器.jpg", "flame_thrower", 8000, 10, NOW()),
+("比較的小型な火炎放射器", "img/比較的小型な火炎放射器.jpg", "flame_thrower", 15000, 3, NOW()),
+("高出力火炎放射器", "img/高出力火炎放射器.jpg", "flame_thrower", 28800, 8, NOW()),
+("お兄さん愛用の火炎放射器", "img/お兄さん愛用の火炎放射器.jpg", "flame_thrower", 230000, 0, NOW()),
+("ただの苗木", "img/ただの苗木.jpg", "seedling", 200, 10, NOW()),
+("水で増える苗木", "img/水で増える苗木.jpg", "seedling", 500, 1, NOW()),
+("葉が多い苗木", "img/葉が多い苗木.jpg", "seedling", 1400, 10, NOW()),
+("枯れ木", "img/枯れ木.jpg", "seedling", 30, 100, NOW());

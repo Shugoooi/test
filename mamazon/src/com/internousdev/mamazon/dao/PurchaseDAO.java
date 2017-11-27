@@ -27,7 +27,7 @@ public class PurchaseDAO {
 	 * @throws SQLException
 	 */
 	public void setPurchaseHistories(ArrayList<CartInfoDTO> cartList) throws SQLException {
-		String sql = "INSERT INTO purchase_history(purchaser, goods_name, goods_price, purchase_count, purchase_date) VALUES(?, ?, ?, ?, NOW());";
+		String sql = "INSERT INTO purchase_history(purchaser, goods_name, goods_price, purchase_number, purchase_date) VALUES(?, ?, ?, ?, NOW());";
 
 	try{
 		for(CartInfoDTO dto : cartList) {
@@ -50,23 +50,23 @@ public class PurchaseDAO {
 	 * 	購入履歴をPurchaseDTOリストで返す
 	 * @throws SQLException
 	 */
-	public ArrayList<PurchaseDTO> getPurchaseHistories(String userName) throws SQLException {
+	public ArrayList<PurchaseDTO> getPurchaseHistories(String userId) throws SQLException {
 
 		ArrayList<PurchaseDTO> purchaseHistories = new ArrayList<PurchaseDTO>();
 
-		PurchaseDTO dto = new PurchaseDTO();
 
-		String sql = "SELECT goods_name, goods_price, purchase_count FROM purchase_history where purchaser=?";
+		String sql = "SELECT goods_name, goods_price, purchase_number FROM purchase_history where purchaser=?";
 
 		try{
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, userName);
+			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
 
-			if(rs.next()) {
+			while(rs.next()) {
+				PurchaseDTO dto = new PurchaseDTO();
 				dto.setPurchaseHistory(rs.getString("goods_name"),
 										rs.getInt("goods_price"),
-										rs.getInt("purchase_count"));
+										rs.getInt("purchase_number"));
 				purchaseHistories.add(dto);
 			}
 

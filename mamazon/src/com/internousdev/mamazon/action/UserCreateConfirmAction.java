@@ -1,14 +1,10 @@
 package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.struts2.interceptor.SessionAware;
 
 import com.internousdev.mamazon.dao.UserDAO;
-import com.internousdev.mamazon.dto.UserDTO;
 import com.internousdev.mamazon.util.MyErrorConstants;
+import com.internousdev.mamazon.util.MyMatcher;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -16,12 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author internousdev
  *
  */
-public class UserCreateConfirmAction extends ActionSupport  implements SessionAware, MyErrorConstants {
-
-	/**
-	 * セッション
-	 */
-	private Map<String, Object> session = new HashMap<>();
+public class UserCreateConfirmAction extends ActionSupport  implements MyErrorConstants {
 
 	/**
 	 * 新規登録ネーム
@@ -42,7 +33,7 @@ public class UserCreateConfirmAction extends ActionSupport  implements SessionAw
 	/**
 	 * 新規登録電話番号
 	 */
-	private int newTel;
+	private String newTel;
 
 	/**
 	 * 新規登録メールアドレス
@@ -60,33 +51,116 @@ public class UserCreateConfirmAction extends ActionSupport  implements SessionAw
 	private String errMsg;
 
 	/**
+	 * ID入力エラー
+	 */
+	private String idErr;
+
+	/**
+	 * パスワード入力エラー
+	 */
+	private String passwordErr;
+
+	/**
+	 * 電話番号入力エラー
+	 */
+	private String telErr;
+
+	/**
+	 * メールアドレス入力エラー
+	 */
+	private String mailErr;
+
+
+	/**
 	 * 新規アカウント情報を確認する
 	 * @return
 	 * @throws SQLException
 	 */
 	public String execute() throws SQLException {
 
-		//入力したユーザー情報をセッションへ保存する
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUserInfo(newName, newId, newPassword, newTel, newMail, newAddress);
-		session.put("newUser",  userDTO);
-
-		//入力されたIDが使用できるものか確認
+		//入力されたものが使用できるものか確認
 		UserDAO dao = new UserDAO();
 		if(! dao.idChk(newId)) {
 			errMsg = ID_DUPLICATION_MESSAGE;
 			return ERROR;
 		}
+		MyMatcher m = new MyMatcher();
+		if(! m.idChk(newId)) {
+			idErr = ID_ERROR_MESSAGE;
+		}
+		if(! m.passwordChk(newPassword)) {
+			passwordErr = PASSWORD_ERROR_MESSAGE;
+		}
+		if(! m.mailChk(newMail)) {
+			mailErr = MAIL_ERROR_MESSAGE;
+		}
+		if(! m.telChk(newTel)) {
+			telErr = TEL_ERROR_MESSAGE;
+		}
+		if(m.idChk(newId) && m.passwordChk(newPassword) && m.mailChk(newMail) && m.telChk(newTel)) {
+			return SUCCESS;
+		} else {
+			return ERROR;
+		}
 
-		return SUCCESS;
 	}
 
 
 	/**
-	 * @param session セットする session
+	 * @return newName
 	 */
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
+	public String getNewName() {
+		return newName;
+	}
+
+
+
+
+	/**
+	 * @return newId
+	 */
+	public String getNewId() {
+		return newId;
+	}
+
+
+
+
+	/**
+	 * @return newPassword
+	 */
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+
+
+
+	/**
+	 * @return newTel
+	 */
+	public String getNewTel() {
+		return newTel;
+	}
+
+
+
+
+	/**
+	 * @return newMail
+	 */
+	public String getNewMail() {
+		return newMail;
+	}
+
+
+
+
+	/**
+	 * @return newAddress
+	 */
+	public String getNewAddress() {
+		return newAddress;
 	}
 
 
@@ -117,7 +191,7 @@ public class UserCreateConfirmAction extends ActionSupport  implements SessionAw
 	/**
 	 * @param newTel セットする newTel
 	 */
-	public void setNewTel(int newTel) {
+	public void setNewTel(String newTel) {
 		this.newTel = newTel;
 	}
 
@@ -143,5 +217,37 @@ public class UserCreateConfirmAction extends ActionSupport  implements SessionAw
 	 */
 	public String getErrMsg() {
 		return errMsg;
+	}
+
+
+	/**
+	 * @return idErr
+	 */
+	public String getIdErr() {
+		return idErr;
+	}
+
+
+	/**
+	 * @return passwordErr
+	 */
+	public String getPasswordErr() {
+		return passwordErr;
+	}
+
+
+	/**
+	 * @return telErr
+	 */
+	public String getTelErr() {
+		return telErr;
+	}
+
+
+	/**
+	 * @return mailErr
+	 */
+	public String getMailErr() {
+		return mailErr;
 	}
 }

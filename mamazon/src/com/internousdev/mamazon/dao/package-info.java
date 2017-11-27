@@ -1,5 +1,5 @@
 /**
- * 
+ * DAOファイル群
  */
 /**
  * @author internousdev

@@ -13,6 +13,7 @@
 	<action name="GoHome" class="com.internousdev.mamazon.action.GoHomeAction" method="execute">
 		<result name="success">home.jsp</result>
 	</action>
+
 	<!-- ログイン画面へ飛ぶ -->
 	<action name="GoLogin" class="com.internousdev.mamazon.action.GoLoginPageAction" method="execute">
 		<result name="success">login.jsp</result>
@@ -21,11 +22,13 @@
 	<action name="Login" class="com.internousdev.mamazon.action.LoginAction" method="execute">
 		<result name="success">home.jsp</result>
 		<result name="error">login.jsp</result>
+		<result name="admin">adminHome.jsp</result>
 	</action>
 	<!-- ログアウトする -->
 	<action name="Logout" class="com.internousdev.mamazon.action.LogoutAction" method="execute">
 		<result name="success">home.jsp</result>
 	</action>
+
 	<!-- マイページへ飛ぶ -->
 	<action name="GoMyPage" class="com.internousdev.mamazon.action.GoMyPageAction" method="execute">
 		<result name="success">myPage.jsp</result>
@@ -38,10 +41,15 @@
 	<action name="UserInfoModConfirm" class="com.internousdev.mamazon.action.UserInfoModConfirmAction" method="execute">
 		<result name="success">userInfoModConfirm.jsp</result>
 	</action>
+	<!-- アカウント情報の変更内容を修正する -->
+	<action name="ModUserInfo" class="com.internousdev.mamazon.action.ModUserInfoAction" method="execute">
+		<result name="success">userInfoMod.jsp</result>
+	</action>
 	<!-- アカウント情報を変更する -->
 	<action name="UserInfoModComplete" class="com.internousdev.mamazon.action.UserResistrationModAction" method="execute">
 		<result name="success">userInfoModComplete.jsp</result>
 	</action>
+
 	<!-- 新規アカウント作成画面へ飛ぶ -->
 	<action name="GoUserCreate" class="com.internousdev.mamazon.action.GoUserCreateAction" method="execute">
 		<result name="success">userCreate.jsp</result>
@@ -55,6 +63,7 @@
 	<action name="UserCreateComplete" class="com.internousdev.mamazon.action.UserResisterAction" method="execute">
 		<result name="success">userCreateComplete.jsp</result>
 	</action>
+
 	<!-- カート確認画面へ飛ぶ -->
 	<action name="LookCart" class="com.internousdev.mamazon.action.LookCartAction" method="execute">
 		<result name="success">cartConfirm.jsp</result>
@@ -67,9 +76,11 @@
 	<action name="GoInquiry" class="com.internousdev.mamazon.action.GoInquiryAction" method="execute">
 		<result name="success">inquiry.jsp</result>
 	</action>
+
 	<!-- 問い合わせ内容を確認する -->
 	<action name="InquiryConfirm" class="com.internousdev.mamazon.action.InquiryConfirmAction" method="execute">
 		<result name="success">inquiryConfirm.jsp</result>
+		<result name="error">inquiry.jsp</result>
 	</action>
 	<!-- 問い合わせ内容を送信する -->
 	<action name="InquiryTransmission" class="com.internousdev.mamazon.action.InquiryTransmissionAction" method="execute">
@@ -80,6 +91,7 @@
 		<result name="success">goodsList.jsp</result>
 		<result name="error">home.jsp</result>
 	</action>
+
 	<!-- 商品の詳細を見る -->
 	<action name="ShowGoodsDetail" class="com.internousdev.mamazon.action.ShowGoodsDetailAction" method="execute">
 		<result name="success">goodsDetail.jsp</result>
@@ -96,6 +108,38 @@
 	<!-- 購入する -->
 	<action name="GoPurchaseComplete" class="com.internousdev.mamazon.action.GoPurchaseCompleteAction" method="execute">
 		<result name="success">purchaseComplete.jsp</result>
+	</action>
+
+	<!-- 管理者画面ホームへ飛ぶ -->
+	<action name="GoAdminHome" class="com.internousdev.mamazon.action.GoAdminHomeAction" method="execute">
+		<result name="success">adminHome.jsp</result>
+	</action>
+
+	<!-- 商品新規登録画面へ飛ぶ -->
+	<action name="GoAddGoods" class="com.internousdev.mamazon.action.GoAddGoodsAction" method="execute">
+		<result name="success">addGoods.jsp</result>
+	</action>
+	<!-- 商品を新規登録する -->
+	<action name="AddGoods" class="com.internousdev.mamazon.action.AddGoodsAction" method="execute">
+		<result name="success">addGoodsComplete.jsp</result>
+		<result name="error">addGoods.jsp</result>
+	</action>
+	<!-- 商品検索画面へ飛ぶ -->
+	<action name="GoSearchGoods" class="com.internousdev.mamazon.action.GoSearchGoodsAction" method="execute">
+		<result name="success">searchGoods.jsp</result>
+	</action>
+	<!-- 商品を検索する -->
+	<action name="SearchGoods" class="com.internousdev.mamazon.action.SearchGoodsAction" method="execute">
+		<result name="success">searchGoods.jsp</result>
+	</action>
+	<!-- 商品情報変更画面へ飛ぶ -->
+	<action name="GoChangeGoodsInfo" class="com.internousdev.mamazon.action.GoChangeGoodsInfoAction" method="execute">
+		<result name="success">changeGoodsInfo.jsp</result>
+	</action>
+	<!-- 商品情報を変更する -->
+	<action name="ChangeGoodsInfo" class="com.internousdev.mamazon.action.ChangeGoodsInfoAction" method="execute">
+		<result name="success">changeGoodsInfoComplete.jsp</result>
+		<result name="error">changeGoodsInfo.jsp</result>
 	</action>
 </package>
 

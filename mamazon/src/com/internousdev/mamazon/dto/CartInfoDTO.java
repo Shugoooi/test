@@ -55,6 +55,18 @@ public class CartInfoDTO extends GoodsDTO {
 	 * カート情報の取得
 	 * @param goodsName
 	 * @param purchaseCount
+	 * @param owner
+	 */
+	public void setCartInfo(String goodsName, int purchaseCount, String owner) {
+		this.goodsName = goodsName;
+		this.purchaseCount = purchaseCount;
+		this.owner = owner;
+	}
+
+	/**
+	 * カート情報の取得
+	 * @param goodsName
+	 * @param purchaseCount
 	 */
 	public void setCartInfo(String goodsName, int purchaseCount) {
 		this.goodsName = goodsName;

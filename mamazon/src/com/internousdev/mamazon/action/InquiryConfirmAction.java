@@ -1,10 +1,7 @@
 package com.internousdev.mamazon.action;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.struts2.interceptor.SessionAware;
-
+import com.internousdev.mamazon.util.MyErrorConstants;
+import com.internousdev.mamazon.util.MyMatcher;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -12,34 +9,89 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author internousdev
  *
  */
-public class InquiryConfirmAction extends ActionSupport implements SessionAware {
+public class InquiryConfirmAction extends ActionSupport implements MyErrorConstants {
 
 	/**
-	 * 問い合わせで入力された文字列
+	 * 問い合わせの名前
+	 */
+	private String userName;
+
+	/**
+	 * 問い合わせ返信用メアド
+	 */
+	private String mail;
+
+	/**
+	 * メアド入力エラー
+	 */
+	private String mailErr;
+
+	/**
+	 * 問い合わせ内容
 	 */
 	private String inquiry;
-
-	/**
-	 * セッション
-	 */
-	private Map<String, Object> session = new HashMap<>();
 
 	/**
 	 * 問い合わせ内容を確認
 	 */
 	public String execute() {
 
-		//問い合わせで入力された文字列を格納
-		session.put("inquiry",  inquiry);
+		//メールアドレスの入力チェック
+		MyMatcher m = new MyMatcher();
+		if(m.mailChk(mail)) {
+			return SUCCESS;
+		} else {
+			mailErr = MAIL_ERROR_MESSAGE;
+			return ERROR;
+		}
 
-		return SUCCESS;
+	}
+
+	/**
+	 * @return userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName セットする userName
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * @return mail
+	 */
+	public String getMail() {
+		return mail;
+	}
+
+	/**
+	 * @param mail セットする mail
+	 */
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	/**
+	 * @return inquiry
+	 */
+	public String getInquiry() {
+		return inquiry;
 	}
 
 	public void setInquiry(String inquiry) {
 		this.inquiry = inquiry;
 	}
 
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
+	/**
+	 * @return mailErr
+	 */
+	public String getMailErr() {
+		return mailErr;
 	}
+
+
 }

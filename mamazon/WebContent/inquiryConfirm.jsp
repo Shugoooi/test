@@ -16,10 +16,16 @@
 <s:div id="main">
 	問い合わせ
 	<s:form action="InquiryTransmission" >
-		<s:div cssclass="inquiry_contents">
-			<s:property value="#session.inquiry" />
+		<s:div>
+			<s:div>名前：<s:property value="userName" /></s:div>
+			<s:div>返信用メールアドレス：<s:property value="mail" /></s:div>
+			<s:div>問い合わせ内容</s:div>
+			<s:property value="inquiry" />
 		</s:div>
 		<s:submit value="送信" />
+		<s:hidden name="userName" value="%{userName}" />
+		<s:hidden name="mail" value="%{mail}" />
+		<s:hidden name="text" value="%{inquiry}" />
 	</s:form>
 
 

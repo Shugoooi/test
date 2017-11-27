@@ -8,10 +8,10 @@ import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.internousdev.mamazon.dao.CartInfoDAO;
+import com.internousdev.mamazon.dao.GoodsDAO;
 import com.internousdev.mamazon.dao.PurchaseDAO;
 import com.internousdev.mamazon.dto.CartInfoDTO;
-import com.internousdev.mamazon.dto.PurchaseDTO;
-import com.internousdev.mamazon.dto.UserDTO;
+import com.internousdev.mamazon.dto.GoodsDTO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -30,20 +30,33 @@ public class GoPurchaseCompleteAction extends ActionSupport implements SessionAw
 	 * 購入完了する
 	 * @throws SQLException
 	 */
-	@SuppressWarnings("unchecked")
 	public String execute() throws SQLException {
+
+		CartInfoDAO dao = new CartInfoDAO();
+		ArrayList<CartInfoDTO> cartList = new ArrayList<>();
+		for(CartInfoDTO dto : dao.getCartTMP()) {
+			//カートの商品情報を取得
+			GoodsDAO goodsDAO = new GoodsDAO();
+			GoodsDTO goodsDTO = goodsDAO.getGoodsInfo(dto.getGoodsName());
+			dto.setGoodsInfo(goodsDTO);
+			dto.setOwner(session.get("userId").toString());
+
+			//購入分在庫を減らす
+			GoodsDAO goodsDAO1 = new GoodsDAO();
+			goodsDAO1.updateStock(dto);
+
+			cartList.add(dto);
+		}
+
 		//購入履歴を追加
 		PurchaseDAO purchaseDAO = new PurchaseDAO();
-		purchaseDAO.setPurchaseHistories((ArrayList<CartInfoDTO>) session.get("cartInfo"));
-		//セッションにおける購入履歴の更新
-		ArrayList<PurchaseDTO> purchaseHistories = new ArrayList<>();
-		purchaseHistories.addAll(purchaseDAO.getPurchaseHistories( ((UserDTO)session.get("userInfo")).getUserName() ));
-		session.replace("purchaseHistories", purchaseHistories);
+		purchaseDAO.setPurchaseHistories(cartList);
 
 		//購入したカート情報の消去
 		CartInfoDAO cartInfoDAO = new CartInfoDAO();
-		cartInfoDAO.delCartInfo(((UserDTO) session.get("userInfo")).getUserName());
-		session.remove("cartInfo");
+		CartInfoDAO cartInfoDAO2 = new CartInfoDAO();
+		cartInfoDAO.delCartInfo(session.get("userId").toString());
+		cartInfoDAO2.delCartTMP();
 		return SUCCESS;
 	}
 

@@ -17,7 +17,36 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class UserResistrationModAction extends ActionSupport implements SessionAware {
 
+	/**
+	 * セッション
+	 */
 	private Map<String, Object> session = new HashMap<>();
+
+	/**
+	 * 新規登録ネーム
+	 */
+	private String newName;
+
+	/**
+	 * 新規登録パスワード
+	 */
+	private String newPassword;
+
+	/**
+	 * 新規登録電話番号
+	 */
+	private String newTel;
+
+	/**
+	 * 新規登録メールアドレス
+	 */
+	private String newMail;
+
+	/**
+	 * 新規登録住所
+	 */
+	private String newAddress;
+
 
 	/**
 	 * アカウント情報を変更する
@@ -25,16 +54,59 @@ public class UserResistrationModAction extends ActionSupport implements SessionA
 	 */
 	public String execute() throws SQLException {
 		UserDAO dao = new UserDAO();
-		dao.updateUserInfo((UserDTO) session.get("newUser"));
-		session.remove("newUser");
+		UserDTO dto = new UserDTO();
+		dto.setUserInfo(newName, session.get("userId").toString(), newPassword, newTel, newMail, newAddress);
+		dao.updateUserInfo(dto);
+		session.replace("userName", newName);
 		return SUCCESS;
 	}
+
 
 	/**
 	 * @param session セットする session
 	 */
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+
+
+	/**
+	 * @param newName セットする newName
+	 */
+	public void setNewName(String newName) {
+		this.newName = newName;
+	}
+
+
+	/**
+	 * @param newPassword セットする newPassword
+	 */
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+
+	/**
+	 * @param newTel セットする newTel
+	 */
+	public void setNewTel(String newTel) {
+		this.newTel = newTel;
+	}
+
+
+	/**
+	 * @param newMail セットする newMail
+	 */
+	public void setNewMail(String newMail) {
+		this.newMail = newMail;
+	}
+
+
+	/**
+	 * @param newAddress セットする newAddress
+	 */
+	public void setNewAddress(String newAddress) {
+		this.newAddress = newAddress;
 	}
 
 }

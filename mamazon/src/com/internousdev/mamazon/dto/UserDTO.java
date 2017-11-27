@@ -26,7 +26,7 @@ public class UserDTO {
 	/**
 	 * 電話番号
 	 */
-	private int tel;
+	private String tel;
 
 	/**
 	 * メアド
@@ -71,7 +71,7 @@ public class UserDTO {
 	 * 電話番号の取得
 	 * @return tel
 	 */
-	public int getTel() {
+	public String getTel() {
 		return tel;
 	}
 
@@ -111,15 +111,15 @@ public class UserDTO {
 	 * @param userName
 	 * @param id
 	 * @param password
-	 * @param tel
+	 * @param newTel
 	 * @param mail
 	 * @param address
 	 */
-	public void setUserInfo(String userName, String id, String password, int tel, String mail, String address) {
+	public void setUserInfo(String userName, String id, String password, String newTel, String mail, String address) {
 		this.userName = userName;
 		this.id = id;
 		this.password = password;
-		this.tel = tel;
+		this.tel = newTel;
 		this.mail = mail;
 		this.address = address;
 	}

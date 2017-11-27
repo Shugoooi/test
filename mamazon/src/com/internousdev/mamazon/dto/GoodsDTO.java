@@ -14,6 +14,11 @@ public class GoodsDTO {
 	private String imgLocated;
 
 	/**
+	 * カテゴリ名
+	 */
+	private String category;
+
+	/**
 	 * 商品の値段
 	 */
 	protected int price;
@@ -22,6 +27,16 @@ public class GoodsDTO {
 	 * 商品の在庫
 	 */
 	protected int stock;
+
+	public GoodsDTO(){}
+
+	public GoodsDTO(String name, String imgLocated, String category, int price, int stock) {
+		this.name = name;
+		this.imgLocated = imgLocated;
+		this.category = category;
+		this.price = price;
+		this.stock = stock;
+	}
 
 
 	/**
@@ -37,6 +52,14 @@ public class GoodsDTO {
 	public String getImgLocated() {
 		return imgLocated;
 	}
+
+	/**
+	 * @return category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
 
 	/**
 	 * @return price

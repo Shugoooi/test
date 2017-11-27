@@ -1,7 +1,6 @@
 package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import com.internousdev.mamazon.dao.CartInfoDAO;
 import com.internousdev.mamazon.dao.GoodsDAO;
 import com.internousdev.mamazon.dto.CartInfoDTO;
 import com.internousdev.mamazon.dto.GoodsDTO;
-import com.internousdev.mamazon.dto.UserDTO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -21,36 +19,58 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class SelectGoodsIntoCartAction extends ActionSupport implements SessionAware {
 
+	/**
+	 * セッション
+	 */
 	private Map<String, Object> session = new HashMap<>();
 
+	/**
+	 * カートに入れる商品
+	 */
+	private String targetGoods;
+
+	/**
+	 * 購入予定数
+	 */
 	private int purchaseCount;
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * 商品がカートに既に入っているかどうか
+	 */
+	private Boolean goodsAlreadyIntoCartFlg;
+
 	public String execute() throws SQLException {
 		//カートに入れる商品の情報を取得
 		CartInfoDTO cartInfoDTO = new CartInfoDTO();
-		cartInfoDTO.setCartInfo(session.get("targetGoods").toString(), purchaseCount);
+		cartInfoDTO.setCartInfo(targetGoods, purchaseCount);
 		GoodsDAO goodsDAO = new GoodsDAO();
-		GoodsDTO dto = goodsDAO.getGoodsInfo(session.get("targetGoods").toString());
-		cartInfoDTO.setGoodsInfo(dto);
+		GoodsDTO goodsDTO = goodsDAO.getGoodsInfo(targetGoods);
+		cartInfoDTO.setGoodsInfo(goodsDTO);
 
-		//ログインしているなら購入予定者情報を付加してDBに保存
-		if(session.containsKey("userInfo")) {
-			if( ( (UserDTO) session.get("userInfo") ).getLoginFlg() ) {
-				cartInfoDTO.setOwner(( (UserDTO) session.get("userInfo") ).getUserName());
+		//ログインしているなら購入予定者情報を付加してユーザーのカートに保存
+		if(session.containsKey("loginFlg")){
+			if( (boolean) session.get("loginFlg") ) {
 				CartInfoDAO dao = new CartInfoDAO();
-				dao.setCartInfo(cartInfoDTO);
+				cartInfoDTO.setOwner(session.get("userId").toString());
+				CartInfoDAO dao2 = new CartInfoDAO();
+				if(dao2.isAlreadyIntoCartInfo(targetGoods, session.get("userId").toString())) {
+					dao.updateUserPurchaseCount(cartInfoDTO);
+				} else {
+					dao.setCartInfo(cartInfoDTO);
+				}
 			}
 		}
 
-		//カート情報がなければ新規に作り、目的の商品をカートへ入れる
-		if(session.containsKey("cartInfo")) {
-			( (ArrayList<CartInfoDTO>) session.get("cartInfo") ).add(cartInfoDTO);
+		//目的の商品を一時カートへ入れる
+		CartInfoDAO dao2 = new CartInfoDAO();
+		dao2.createCartTMP();
+		CartInfoDAO dao3 = new CartInfoDAO();
+		if(goodsAlreadyIntoCartFlg) {
+			dao3.updateTMPPurchaseCount(cartInfoDTO);
 		} else {
-			ArrayList<CartInfoDTO> cartList = new ArrayList<>();
-			cartList.add(cartInfoDTO);
-			session.put("cartInfo", cartList);
+			dao3.setCartTMP(cartInfoDTO);
 		}
+
 
 		return SUCCESS;
 	}
@@ -63,9 +83,23 @@ public class SelectGoodsIntoCartAction extends ActionSupport implements SessionA
 	}
 
 	/**
+	 * @param targetGoods セットする targetGoods
+	 */
+	public void setTargetGoods(String targetGoods) {
+		this.targetGoods = targetGoods;
+	}
+
+	/**
 	 * @param purchaseCount セットする purchaseCount
 	 */
 	public void setPurchaseCount(int purchaseCount) {
 		this.purchaseCount = purchaseCount;
+	}
+
+	/**
+	 * @param goodsAlreadyIntoCartFlg セットする goodsAlreadyIntoCartFlg
+	 */
+	public void setGoodsAlreadyIntoCartFlg(Boolean goodsAlreadyIntoCartFlg) {
+		this.goodsAlreadyIntoCartFlg = goodsAlreadyIntoCartFlg;
 	}
 }

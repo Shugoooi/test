@@ -23,9 +23,10 @@ public class LogoutAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> session = new HashMap<>();
 
 	public String execute() {
-		session.remove("userInfo");
-		session.remove("cartInfo");
-		session.remove("purchaseHistories");
+		//ログインセッションを全て切断する
+		session.remove("userName");
+		session.remove("userId");
+		session.replace("loginFlg", false);
 		return SUCCESS;
 	}
 

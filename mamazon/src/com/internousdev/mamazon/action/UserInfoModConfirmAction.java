@@ -1,11 +1,7 @@
 package com.internousdev.mamazon.action;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.struts2.interceptor.SessionAware;
-
-import com.internousdev.mamazon.dto.UserDTO;
+import com.internousdev.mamazon.util.MyErrorConstants;
+import com.internousdev.mamazon.util.MyMatcher;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -13,23 +9,12 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author internousdev
  *
  */
-public class UserInfoModConfirmAction extends ActionSupport  implements SessionAware {
-
-	/**
-	 * セッション
-	 */
-	private Map<String, Object> session = new HashMap<>();
+public class UserInfoModConfirmAction extends ActionSupport  implements MyErrorConstants {
 
 	/**
 	 * 新規登録ネーム
 	 */
 	private String newName;
-
-
-	/**
-	 * 新規登録ID
-	 */
-	private String newId;
 
 	/**
 	 * 新規登録パスワード
@@ -39,7 +24,7 @@ public class UserInfoModConfirmAction extends ActionSupport  implements SessionA
 	/**
 	 * 新規登録電話番号
 	 */
-	private int newTel;
+	private String newTel;
 
 	/**
 	 * 新規登録メールアドレス
@@ -52,25 +37,83 @@ public class UserInfoModConfirmAction extends ActionSupport  implements SessionA
 	private String newAddress;
 
 	/**
+	 * パスワードエラーメッセージ
+	 */
+	private String passwordErr = new String();
+
+	/**
+	 * 電話番号入力エラーメッセージ
+	 */
+	private String telErr = new String();
+
+	/**
+	 * メールアドレス入力エラーメッセージ
+	 */
+	private String mailErr = new String();
+
+	/**
 	 * アカウント情報の変更内容を確認する
 	 * @return
 	 */
 	public String execute() {
 
-		//入力したユーザー情報をセッションへ保存する
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUserInfo(newName, newId, newPassword, newTel, newMail, newAddress);
-		session.put("newUser",  userDTO);
+		//入力されたものが使用できるものか確認
+		MyMatcher m = new MyMatcher();
+		if(! m.passwordChk(newPassword)) {
+			passwordErr = PASSWORD_ERROR_MESSAGE;
+		}
+		if(! m.mailChk(newMail)) {
+			mailErr = MAIL_ERROR_MESSAGE;
+		}
+		if(! m.telChk(newTel)) {
+			telErr = TEL_ERROR_MESSAGE;
+		}
+		if(m.passwordChk(newPassword) && m.mailChk(newMail) && m.telChk(newTel)) {
+			return SUCCESS;
+		} else {
+			return ERROR;
+		}
 
-		return SUCCESS;
 	}
 
 
 	/**
-	 * @param session セットする session
+	 * @return newName
 	 */
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
+	public String getNewName() {
+		return newName;
+	}
+
+
+	/**
+	 * @return newPassword
+	 */
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+
+	/**
+	 * @return newTel
+	 */
+	public String getNewTel() {
+		return newTel;
+	}
+
+
+	/**
+	 * @return newMail
+	 */
+	public String getNewMail() {
+		return newMail;
+	}
+
+
+	/**
+	 * @return newAddress
+	 */
+	public String getNewAddress() {
+		return newAddress;
 	}
 
 
@@ -79,14 +122,6 @@ public class UserInfoModConfirmAction extends ActionSupport  implements SessionA
 	 */
 	public void setNewName(String newName) {
 		this.newName = newName;
-	}
-
-
-	/**
-	 * @param newId セットする newId
-	 */
-	public void setNewId(String newId) {
-		this.newId = newId;
 	}
 
 
@@ -101,7 +136,7 @@ public class UserInfoModConfirmAction extends ActionSupport  implements SessionA
 	/**
 	 * @param newTel セットする newTel
 	 */
-	public void setNewTel(int newTel) {
+	public void setNewTel(String newTel) {
 		this.newTel = newTel;
 	}
 
@@ -119,5 +154,29 @@ public class UserInfoModConfirmAction extends ActionSupport  implements SessionA
 	 */
 	public void setNewAddress(String newAddress) {
 		this.newAddress = newAddress;
+	}
+
+
+	/**
+	 * @return passwordErr
+	 */
+	public String getPasswordErr() {
+		return passwordErr;
+	}
+
+
+	/**
+	 * @return telErr
+	 */
+	public String getTelErr() {
+		return telErr;
+	}
+
+
+	/**
+	 * @return mailErr
+	 */
+	public String getMailErr() {
+		return mailErr;
 	}
 }

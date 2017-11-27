@@ -15,11 +15,31 @@
 
 <s:div id="main">
 		<s:form action="SelectGoodsIntoCart">
-			<h1><s:property value="dto.getName()" /></h1>
-			<img src= '<s:property value="dto.getImgLocated()" />' >
-			&yen; <s:property value="dto.getPrice()" />
-			<s:select list="{1, 2, 3, 4, 5}" name="purchaseCount" />
-			<s:submit value="カートに入れる" />
+			<h1><s:property value="goodsName" /></h1>
+			<img src= '<s:property value="imgLocated" />' >
+			&yen; <s:property value="price" />
+			在庫
+			<s:if test="stock >= 10">○</s:if>
+			<s:elseif test="stock < 10 && stock > 5">△</s:elseif>
+			<s:elseif test="stock <= 5 && stock > 0">残り<s:property value="stock" />個</s:elseif>
+			<s:else>×</s:else>
+
+			<s:if test="stock != 0">
+				購入数：<s:select list="purchaseCount" name="purchaseCount" value="1" />
+
+				<s:if test="! goodsAlreadyIntoCartFlg">
+					<s:submit value="カートに入れる" />
+				</s:if>
+				<s:else>
+					<s:property value="goodsAlreadyIntoCartMessage" />
+					<s:submit value="購入数を変更する" />
+				</s:else>
+
+			</s:if>
+			<s:else>次回入荷予定は未定です</s:else>
+
+			<s:hidden name="targetGoods" value="%{goodsName}" />
+			<s:hidden name="goodsAlreadyIntoCartFlg" value="%{goodsAlreadyIntoCartFlg}" />
 		</s:form>
 
 

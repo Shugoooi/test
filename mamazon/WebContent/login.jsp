@@ -14,6 +14,7 @@
 <jsp:include page="subjsp/header.jsp" flush="true" />
 
 <s:div id="main">
+	<h3>ログイン画面</h3>
 	<s:property value="loginError" />
 	<s:property value="loginRequired" />
 	<s:form action="Login" theme="simple">

@@ -8,27 +8,27 @@
 <ul>
 	<li>
 		名前
-		<s:div><s:property value="#session.userInfo.getUserName()" /></s:div>
+		<s:div><s:property value="userName" /></s:div>
 	</li>
 	<li>
 		ID
-		<s:div><s:property value="#session.userInfo.getId()" /></s:div>
+		<s:div><s:property value="id" /></s:div>
 	</li>
 	<li>
 		パスワード
-		<s:div><s:property value="#session.userInfo.getPassword()" /></s:div>
+		<s:div><s:property value="password" /></s:div>
 	</li>
 	<li>
 		電話番号
-		<s:div><s:property value="#session.userInfo.getTel()" /></s:div>
+		<s:div><s:property value="tel" /></s:div>
 	</li>
 	<li>
 		メールアドレス
-		<s:div><s:property value="#session.userInfo.getMail()" /></s:div>
+		<s:div><s:property value="mail" /></s:div>
 	</li>
 	<li>
 		住所
-		<s:div><s:property value="#session.userInfo.getAddress()" /></s:div>
+		<s:div><s:property value="address" /></s:div>
 	</li>
 	<li>
 		<a href= '<s:url action="GoUserInfoMod" />' >登録情報変更</a>

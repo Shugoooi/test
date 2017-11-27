@@ -37,13 +37,48 @@ public class UserDAO {
 			ResultSet rs = ps.executeQuery();
 
 			if(rs.next()) {
-				userDTO.setUserInfo( rs.getString("id"),
+				userDTO.setUserInfo( rs.getString("name"),
+									rs.getString("id"),
 									rs.getString("pass"),
-									rs.getString("name"),
-									rs.getInt("tel"),
+									rs.getString("tel"),
 									rs.getString("mail"),
 									rs.getString("address"));
 				userDTO.setLoginFlg(true);
+			}
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			con.close();
+		}
+
+		return userDTO;
+	}
+
+	/**
+	 * ユーザー情報をDBから検索
+	 * @param loginId
+	 * @return
+	 * @throws SQLException
+	 */
+	public UserDTO getUserInfo(String loginId) throws SQLException {
+
+		UserDTO userDTO = new UserDTO();
+
+		String sql = "SELECT id, pass, name, tel, mail, address FROM user_info where id=?";
+
+		try{
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, loginId);
+			ResultSet rs = ps.executeQuery();
+
+			if(rs.next()) {
+				userDTO.setUserInfo( rs.getString("name"),
+									rs.getString("id"),
+									rs.getString("pass"),
+									rs.getString("tel"),
+									rs.getString("mail"),
+									rs.getString("address"));
 			}
 
 		} catch(SQLException e) {
@@ -69,7 +104,7 @@ public class UserDAO {
 			ps.setString(1, userDTO.getUserName());
 			ps.setString(2,  userDTO.getId());
 			ps.setString(3, userDTO.getPassword());
-			ps.setInt(4,  userDTO.getTel());
+			ps.setString(4,  userDTO.getTel());
 			ps.setString(5, userDTO.getMail());
 			ps.setString(6,  userDTO.getAddress());
 			ps.execute();
@@ -82,7 +117,7 @@ public class UserDAO {
 	}
 
 	/**
-	 * 与えられたユーザー情報をDBに登録
+	 * 与えられたユーザー情報をDBに登録(上書き）
 	 * @param userDTO
 	 * @throws SQLException
 	 */
@@ -95,7 +130,7 @@ public class UserDAO {
 			ps.setString(1, userDTO.getUserName());
 			ps.setString(6,  userDTO.getId());
 			ps.setString(2, userDTO.getPassword());
-			ps.setInt(3,  userDTO.getTel());
+			ps.setString(3,  userDTO.getTel());
 			ps.setString(4, userDTO.getMail());
 			ps.setString(5,  userDTO.getAddress());
 			ps.execute();

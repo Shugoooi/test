@@ -25,10 +25,17 @@
 	</s:else>
 
 	<s:iterator value="goodsList">
-		<s:form action="ShowGoodsDetail">
+		<s:form action="ShowGoodsDetail" id="goodsList">
+			<h4><s:property value="name" /></h4>
 			<img src= '<s:property value="imgLocated" />' >
-			<s:property value="name" />
-			&yen; <s:property value="price" />
+			<s:div><s:property value="price" />円</s:div>
+			<s:div>在庫
+				<s:if test="stock >= 10">○</s:if>
+				<s:elseif test="stock < 10 && stock > 5">△</s:elseif>
+				<s:elseif test="stock <= 5 && stock > 0">残り<s:property value="stock" />個</s:elseif>
+				<s:else>×</s:else>
+			</s:div>
+
 			<s:hidden name="goodsName" value="%{name}" />
 			<s:submit value="詳細を見る" />
 		</s:form>

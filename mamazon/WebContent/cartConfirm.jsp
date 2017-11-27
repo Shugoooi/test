@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Mamazon</title>
 <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 
@@ -17,12 +18,16 @@
 
 	<h3>カートの確認</h3>
 
-	<s:if test="! #session.cartInfo.isEmpty()">
-	<s:iterator value="#session.cartInfo">
-		<img src= '<s:property value="imgLocated" />' >
-		<s:property value="name" />
-		単価：<s:property value="price" />円
-		個数：<s:property value="purchaseCount" />個
+	<s:if test="! cartList.isEmpty()">
+	<s:iterator value="cartList">
+		<s:form id="goodsList" action="LookCart">
+			<h4><s:property value="name" /></h4>
+			<img src= '<s:property value="imgLocated" />' >
+			<s:div>単価：<s:property value="price" />円</s:div>
+			<s:div>個数：<s:property value="purchaseCount" />個</s:div>
+			<s:hidden name="deleteGoods" value="%{name}" />
+			<s:submit value="カートから外す" />
+		</s:form>
 	</s:iterator>
 
 	<div class="right">

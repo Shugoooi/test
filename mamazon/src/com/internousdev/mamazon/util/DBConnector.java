@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * DB接続をする
+ * DBへ接続をする
  * @author internousdev
  *
  */
@@ -13,7 +13,7 @@ public class DBConnector {
 	Connection con = null;
 
 	/**
-	 * DB接続をする
+	 * DBへ接続をする
 	 */
 	public Connection getConnection() {
 		final String driverName = "com.mysql.jdbc.Driver";

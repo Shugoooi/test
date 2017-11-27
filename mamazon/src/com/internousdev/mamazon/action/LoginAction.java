@@ -8,12 +8,8 @@ import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.internousdev.mamazon.dao.CartInfoDAO;
-import com.internousdev.mamazon.dao.GoodsDAO;
-import com.internousdev.mamazon.dao.PurchaseDAO;
 import com.internousdev.mamazon.dao.UserDAO;
 import com.internousdev.mamazon.dto.CartInfoDTO;
-import com.internousdev.mamazon.dto.GoodsDTO;
-import com.internousdev.mamazon.dto.PurchaseDTO;
 import com.internousdev.mamazon.dto.UserDTO;
 import com.internousdev.mamazon.util.MyErrorConstants;
 import com.opensymphony.xwork2.ActionSupport;
@@ -50,7 +46,6 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 	 * ログインする
 	 * @throws SQLException
 	 */
-	@SuppressWarnings("unchecked")
 	public String execute() throws SQLException {
 
 		//ログイン情報の取得
@@ -60,32 +55,38 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 		//ログインを試みる
 		if(dto.getLoginFlg()) {
 
-			//ログイン成功、ユーザー情報とカート情報、及び購入履歴を保存及び追加
-			session.put("userInfo", dto);
+			//userIdが「a」ならば管理者画面へ移る
+			if(dto.getId().equals("a")) {
+				return "admin";
+			}
 
-			//カート情報がすでにあれば（非ログイン時の操作により起こりうる）それも保存しておく
-			CartInfoDAO cartInfoDAO = new CartInfoDAO();
-			if(! session.containsKey("cartInfo")) {
-				ArrayList<CartInfoDTO> cartList = new ArrayList<>();
-				session.put("cartInfo",  cartList);
+			//ログイン成功、ユーザー情報及びログインフラグをセッションへ保存
+			session.put("userId", dto.getId());
+			session.put("userName", dto.getUserName());
+			if(session.containsKey("loginFlg")) {
+				session.replace("loginFlg", dto.getLoginFlg());
 			} else {
-				for(CartInfoDTO cartInfoDTO : (ArrayList<CartInfoDTO>) session.get("cartInfo")) {
-					cartInfoDTO.setOwner( ((UserDTO) session.get("userInfo")).getUserName() );
+				session.put("loginFlg",  dto.getLoginFlg());
+			}
+
+			//ユーザーのカート情報を一時カートへ保存する、両カート間で商品が重複した場合はユーザーのカート情報が優先される
+			CartInfoDAO cartInfoDAO = new CartInfoDAO();
+			ArrayList<CartInfoDTO> cartList = new ArrayList<>();
+			for( CartInfoDTO cartInfoDTO : cartInfoDAO.getCartInfo(dto.getId()) ) {
+				cartList.add(cartInfoDTO);
+			}
+			for(CartInfoDTO cartInfoDTO : cartList) {
+				CartInfoDAO createCartTMP = new CartInfoDAO();
+				createCartTMP.createCartTMP();
+				CartInfoDAO cartTMP = new CartInfoDAO();
+				CartInfoDAO chkGoodsDuplication = new CartInfoDAO();
+				if( chkGoodsDuplication.isAlreadyIntoCartTMP(cartInfoDTO.getGoodsName()) ) {
+					cartTMP.updateTMPPurchaseCount(cartInfoDTO);
+				} else {
+					cartTMP.setCartTMP(cartInfoDTO);
 				}
 			}
-			for( CartInfoDTO cartInfoDTO : cartInfoDAO.getCartInfo( dto.getId() ) ) {
-				GoodsDAO goodsDAO = new GoodsDAO();
-				GoodsDTO goodsDTO = goodsDAO.getGoodsInfo(cartInfoDTO.getGoodsName());
-				cartInfoDTO.setGoodsInfo(goodsDTO);
-				cartInfoDTO.setOwner(((UserDTO) session.get("userInfo")).getUserName());
-				((ArrayList<CartInfoDTO>) session.get("cartInfo")).add(cartInfoDTO);
-			}
 
-
-			PurchaseDAO purchaseDAO = new PurchaseDAO();
-			ArrayList<PurchaseDTO> purchaseHistories = new ArrayList<>();
-			purchaseHistories.addAll(purchaseDAO.getPurchaseHistories( ((UserDTO) session.get("userInfo")).getUserName() ));
-			session.put("purchaseHistories", purchaseHistories);
 
 			return SUCCESS;
 		} else {

@@ -167,8 +167,9 @@ public class GoodsDAO {
 	 * @param dto
 	 * @throws SQLException
 	 */
-	public void updateStock(CartInfoDTO dto) throws SQLException {
+	public boolean updateStock(CartInfoDTO dto) throws SQLException {
 
+		boolean ret = false;
 
 		String sql = "UPDATE goods_info SET stock=? WHERE name=?";
 
@@ -177,7 +178,7 @@ public class GoodsDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, dto.getStock()-dto.getPurchaseCount());
 			ps.setString(2, dto.getGoodsName());
-			ps.execute();
+			ret = ps.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,6 +186,7 @@ public class GoodsDAO {
 			con.close();
 		}
 
+		return ret;
 	}
 
 	/**
@@ -193,7 +195,9 @@ public class GoodsDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Boolean isAlreadyUsed(String goodsName) throws SQLException {
+	public boolean isAlreadyUsed(String goodsName) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "SELECT * FROM goods_info where name=?";
 
@@ -201,12 +205,7 @@ public class GoodsDAO {
 
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, goodsName);
-			ResultSet rs = ps.executeQuery();
-
-			if( rs.next() ) {
-				return true;
-			}
-
+			ret = ps.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -214,7 +213,7 @@ public class GoodsDAO {
 			con.close();
 		}
 
-		return false;
+		return ret;
 	}
 
 	/**
@@ -222,8 +221,9 @@ public class GoodsDAO {
 	 * @param dto
 	 * @throws SQLException
 	 */
-	public void newGoods(GoodsDTO dto) throws SQLException {
+	public boolean newGoods(GoodsDTO dto) throws SQLException {
 
+		boolean ret = false;
 
 		String sql = "INSERT INTO goods_info(name, img_located, category, price, stock, create_date) VALUES(?,?,?,?,?,NOW())";
 
@@ -235,7 +235,7 @@ public class GoodsDAO {
 			ps.setString(3, dto.getCategory());
 			ps.setInt(4, dto.getPrice());
 			ps.setInt(5, dto.getStock());
-			ps.execute();
+			ret = ps.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -243,6 +243,7 @@ public class GoodsDAO {
 			con.close();
 		}
 
+		return ret;
 	}
 
 	/**
@@ -251,8 +252,9 @@ public class GoodsDAO {
 	 * @param oldGoodsName
 	 * @throws SQLException
 	 */
-	public void changeGoodsInfo(GoodsDTO dto, String oldGoodsName) throws SQLException {
+	public boolean changeGoodsInfo(GoodsDTO dto, String oldGoodsName) throws SQLException {
 
+		boolean ret = false;
 
 		String sql = "UPDATE goods_info SET name=?, img_located=?, category=?, price=?, stock=?, update_time=NOW() WHERE name=?";
 
@@ -265,7 +267,7 @@ public class GoodsDAO {
 			ps.setInt(4, dto.getPrice());
 			ps.setInt(5, dto.getStock());
 			ps.setString(6, oldGoodsName);
-			ps.execute();
+			ret = ps.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -273,6 +275,7 @@ public class GoodsDAO {
 			con.close();
 		}
 
+		return ret;
 	}
 
 }

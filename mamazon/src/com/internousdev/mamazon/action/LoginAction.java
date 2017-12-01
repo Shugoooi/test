@@ -2,7 +2,6 @@ package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -24,7 +23,7 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * ログインID
@@ -95,6 +94,34 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 			loginError = LOGIN_ERROR_MESSAGE;
 			return ERROR;
 		}
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	/**
+	 * @return loginId
+	 */
+	public String getLoginId() {
+		return loginId;
+	}
+
+	/**
+	 * @return loginPassword
+	 */
+	public String getLoginPassword() {
+		return loginPassword;
+	}
+
+	/**
+	 * @param loginError セットする loginError
+	 */
+	public void setLoginError(String loginError) {
+		this.loginError = loginError;
 	}
 
 	/**

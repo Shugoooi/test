@@ -1,7 +1,6 @@
 package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -22,7 +21,7 @@ public class SelectGoodsIntoCartAction extends ActionSupport implements SessionA
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * カートに入れる商品
@@ -73,6 +72,34 @@ public class SelectGoodsIntoCartAction extends ActionSupport implements SessionA
 
 
 		return SUCCESS;
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	/**
+	 * @return targetGoods
+	 */
+	public String getTargetGoods() {
+		return targetGoods;
+	}
+
+	/**
+	 * @return purchaseCount
+	 */
+	public int getPurchaseCount() {
+		return purchaseCount;
+	}
+
+	/**
+	 * @return goodsAlreadyIntoCartFlg
+	 */
+	public Boolean getGoodsAlreadyIntoCartFlg() {
+		return goodsAlreadyIntoCartFlg;
 	}
 
 	/**

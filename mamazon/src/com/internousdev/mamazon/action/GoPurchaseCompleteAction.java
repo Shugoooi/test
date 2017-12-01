@@ -2,7 +2,6 @@ package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -24,7 +23,7 @@ public class GoPurchaseCompleteAction extends ActionSupport implements SessionAw
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * 購入完了する
@@ -58,6 +57,13 @@ public class GoPurchaseCompleteAction extends ActionSupport implements SessionAw
 		cartInfoDAO.delCartInfo(session.get("userId").toString());
 		cartInfoDAO2.delCartTMP();
 		return SUCCESS;
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
 	}
 
 	/**

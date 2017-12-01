@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -16,11 +16,10 @@
 
 <s:div id="main">
 	<s:form action="AddGoods" enctype="multipart/form-data" theme="simple">
-		<s:property value="inputErr" />
-		<s:property value="goodsNameErr" />
+		<s:property value="errMsg" />
 		<s:div>商品名：<s:textfield name="goodsName" /></s:div>
 		<s:div>カテゴリ名：<s:select list='{"fire_extinguisher", "flame_thrower", "seedling"}' name="category" /></s:div>
-		<s:div>商品画像：<s:file property="uploadFile" name="file"/></s:div>
+		<s:div>商品画像：<s:file property="uploadFile" name="goodsImg"/></s:div>
 		<s:div>価格：<s:textfield name="price" />円</s:div>
 		<s:div>在庫：<s:textfield name="stock" />個</s:div>
 		<s:submit value="完了" />

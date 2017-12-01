@@ -2,7 +2,6 @@ package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -23,7 +22,7 @@ public class LookCartAction extends ActionSupport implements SessionAware {
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * カートリスト
@@ -70,6 +69,34 @@ public class LookCartAction extends ActionSupport implements SessionAware {
 		}
 
 		return SUCCESS;
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	/**
+	 * @return deleteGoods
+	 */
+	public String getDeleteGoods() {
+		return deleteGoods;
+	}
+
+	/**
+	 * @param cartList セットする cartList
+	 */
+	public void setCartList(ArrayList<CartInfoDTO> cartList) {
+		this.cartList = cartList;
+	}
+
+	/**
+	 * @param totalPrice セットする totalPrice
+	 */
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	/**

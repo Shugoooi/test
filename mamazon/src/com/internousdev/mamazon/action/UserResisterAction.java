@@ -57,6 +57,48 @@ public class UserResisterAction extends ActionSupport {
 	}
 
 	/**
+	 * @return newName
+	 */
+	public String getNewName() {
+		return newName;
+	}
+
+	/**
+	 * @return newId
+	 */
+	public String getNewId() {
+		return newId;
+	}
+
+	/**
+	 * @return newPassword
+	 */
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	/**
+	 * @return newTel
+	 */
+	public String getNewTel() {
+		return newTel;
+	}
+
+	/**
+	 * @return newMail
+	 */
+	public String getNewMail() {
+		return newMail;
+	}
+
+	/**
+	 * @return newAddress
+	 */
+	public String getNewAddress() {
+		return newAddress;
+	}
+
+	/**
 	 * @param newName セットする newName
 	 */
 	public void setNewName(String newName) {

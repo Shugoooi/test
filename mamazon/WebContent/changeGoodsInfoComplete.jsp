@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href='<s:url action="GoAdminHome" />'>ok</a>
+	商品情報の変更に成功しました
+	<a href='<s:url action="GoAdminHome" />'>管理者ホーム画面へ</a>
 </body>
 </html>

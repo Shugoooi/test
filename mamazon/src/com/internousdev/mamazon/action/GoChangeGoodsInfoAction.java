@@ -66,6 +66,46 @@ public class GoChangeGoodsInfoAction extends ActionSupport implements ServletReq
 
 
 	/**
+	 * @param fileName セットする fileName
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+
+	/**
+	 * @param fileDir セットする fileDir
+	 */
+	public void setFileDir(String fileDir) {
+		this.fileDir = fileDir;
+	}
+
+
+	/**
+	 * @param category セットする category
+	 */
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+	/**
+	 * @param price セットする price
+	 */
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+	/**
+	 * @param stock セットする stock
+	 */
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+
+	/**
 	 * @return goodsName
 	 */
 	public String getGoodsName() {

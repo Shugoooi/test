@@ -2,7 +2,6 @@ package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -24,7 +23,7 @@ public class GoPurchaseConfirmAction extends ActionSupport implements SessionAwa
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * 購入金額
@@ -66,6 +65,34 @@ public class GoPurchaseConfirmAction extends ActionSupport implements SessionAwa
 		//ログイン履歴がなければログイン画面へ
 		 loginRequired = LOGIN_REQUIRED_MESSAGE;
 		return "loginRequired";
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	/**
+	 * @param totalPrice セットする totalPrice
+	 */
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	/**
+	 * @param cartList セットする cartList
+	 */
+	public void setCartList(ArrayList<CartInfoDTO> cartList) {
+		this.cartList = cartList;
+	}
+
+	/**
+	 * @param loginRequired セットする loginRequired
+	 */
+	public void setLoginRequired(String loginRequired) {
+		this.loginRequired = loginRequired;
 	}
 
 	/**

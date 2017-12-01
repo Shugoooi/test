@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="com.internousdev.adminmaker.action" extends="struts-default">
+        <action name="InitAdmin" class="com.internousdev.adminmaker.action.InitAdmin" method="execute">
+            <result name="success">admin_home.jsp</result>
+        </action>
+        <action name="ShowTableRows" class="com.internousdev.adminmaker.action.ShowTableRows" method="execute">
+            <result name="success">admin_table.jsp</result>
+        </action>
+    </package>
+
+</struts>

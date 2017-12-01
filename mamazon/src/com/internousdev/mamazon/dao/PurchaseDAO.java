@@ -26,7 +26,10 @@ public class PurchaseDAO {
 	 * @param cartList
 	 * @throws SQLException
 	 */
-	public void setPurchaseHistories(ArrayList<CartInfoDTO> cartList) throws SQLException {
+	public boolean setPurchaseHistories(ArrayList<CartInfoDTO> cartList) throws SQLException {
+
+		boolean ret = false;
+
 		String sql = "INSERT INTO purchase_history(purchaser, goods_name, goods_price, purchase_number, purchase_date) VALUES(?, ?, ?, ?, NOW());";
 
 	try{
@@ -36,7 +39,7 @@ public class PurchaseDAO {
 		ps.setString(2, dto.getGoodsName());
 		ps.setInt(3, dto.getPrice());
 		ps.setInt(4, dto.getPurchaseCount());
-		ps.execute();
+		ret = ps.execute();
 		}
 
 	} catch(SQLException e) {
@@ -44,6 +47,8 @@ public class PurchaseDAO {
 	} finally {
 		con.close();
 	}
+
+	return ret;
 }
 
 	/**

@@ -32,6 +32,7 @@
 	<!-- マイページへ飛ぶ -->
 	<action name="GoMyPage" class="com.internousdev.mamazon.action.GoMyPageAction" method="execute">
 		<result name="success">myPage.jsp</result>
+		<result name="error">myPage.jsp</result>
 	</action>
 	<!-- アカウント情報変更画面へ飛ぶ -->
 	<action name="GoUserInfoMod" class="com.internousdev.mamazon.action.GoUserInfoModAction" method="execute">

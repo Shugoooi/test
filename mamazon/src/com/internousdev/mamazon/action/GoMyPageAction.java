@@ -2,7 +2,6 @@ package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -15,6 +14,7 @@ import com.internousdev.mamazon.dto.CartInfoDTO;
 import com.internousdev.mamazon.dto.GoodsDTO;
 import com.internousdev.mamazon.dto.PurchaseDTO;
 import com.internousdev.mamazon.dto.UserDTO;
+import com.internousdev.mamazon.util.MyErrorConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -22,17 +22,17 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author internousdev
  *
  */
-public class GoMyPageAction extends ActionSupport implements SessionAware {
+public class GoMyPageAction extends ActionSupport implements SessionAware , MyErrorConstants{
 
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * マイページのどの画面を映すか
 	 */
-	private String myPageDisplay = new String();
+	private String myPageDisplay = "";
 
 	/**
 	 * 一時カート情報
@@ -42,7 +42,7 @@ public class GoMyPageAction extends ActionSupport implements SessionAware {
 	/**
 	 * カートから削除する商品
 	 */
-	private String deleteGoods = new String();
+	private String deleteGoods = "";
 
 	/**
 	 * ユーザーネーム
@@ -84,6 +84,11 @@ public class GoMyPageAction extends ActionSupport implements SessionAware {
 	 */
 	private ArrayList<PurchaseDTO> purchaseHistories = new ArrayList<>();
 
+	/**
+	 * エラーメッセージ
+	 */
+	private String errMsg;
+
 
 	/**
 	 * マイページへ飛ぶ
@@ -101,8 +106,11 @@ public class GoMyPageAction extends ActionSupport implements SessionAware {
 			if(!deleteGoods.isEmpty()) {
 				CartInfoDAO cartInfoDAO = new CartInfoDAO();
 				CartInfoDAO cartInfoDAO2 = new CartInfoDAO();
-				cartInfoDAO.delGoodsFromCartInfo(deleteGoods, session.get("userId").toString());
-				cartInfoDAO2.delGoodsFromCartTMP(deleteGoods);
+				if(! cartInfoDAO.delGoodsFromCartInfo(deleteGoods, session.get("userId").toString()) ||
+				   ! cartInfoDAO2.delGoodsFromCartTMP(deleteGoods)) {
+					errMsg = DELETE_GOODS_FROM_CART_ERROR_MESSAGE;
+					return ERROR;
+				}
 			}
 
 			//カートの商品情報をリストで拾ってきて、ついでにカート内の合計金額を計算する
@@ -121,7 +129,7 @@ public class GoMyPageAction extends ActionSupport implements SessionAware {
 
 			//ログインユーザーの購入履歴をリストで拾ってくる
 			PurchaseDAO purchaseDAO = new PurchaseDAO();
-			for(PurchaseDTO purchaseDTO : purchaseDAO.getPurchaseHistories(session.get("userId").toString()) ) {
+			for(PurchaseDTO purchaseDTO: purchaseDAO.getPurchaseHistories(session.get("userId").toString()) ) {
 				purchaseHistories.add(purchaseDTO);
 			}
 		}
@@ -141,6 +149,83 @@ public class GoMyPageAction extends ActionSupport implements SessionAware {
 		}
 
 		return SUCCESS;
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	/**
+	 * @return deleteGoods
+	 */
+	public String getDeleteGoods() {
+		return deleteGoods;
+	}
+
+	/**
+	 * @param cartList セットする cartList
+	 */
+	public void setCartList(ArrayList<CartInfoDTO> cartList) {
+		this.cartList = cartList;
+	}
+
+	/**
+	 * @param userName セットする userName
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * @param id セットする id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param password セットする password
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @param tel セットする tel
+	 */
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	/**
+	 * @param mail セットする mail
+	 */
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	/**
+	 * @param address セットする address
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * @param totalPrice セットする totalPrice
+	 */
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	/**
+	 * @param purchaseHistories セットする purchaseHistories
+	 */
+	public void setPurchaseHistories(ArrayList<PurchaseDTO> purchaseHistories) {
+		this.purchaseHistories = purchaseHistories;
 	}
 
 	/**
@@ -232,5 +317,19 @@ public class GoMyPageAction extends ActionSupport implements SessionAware {
 	 */
 	public ArrayList<PurchaseDTO> getPurchaseHistories() {
 		return purchaseHistories;
+	}
+
+	/**
+	 * @return errMsg
+	 */
+	public String getErrMsg() {
+		return errMsg;
+	}
+
+	/**
+	 * @param errMsg セットする errMsg
+	 */
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
 	}
 }

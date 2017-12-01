@@ -16,10 +16,9 @@
 <s:div id="main">
 
 	<s:form action="ChangeGoodsInfo" enctype="multipart/form-data" theme="simple">
-		<s:property value="inputErr" />
-		<s:property value="goodsNameErr" />
+		<s:property value="errMsg" />
 		<s:div>商品名：<s:textfield name="goodsName" value="%{goodsName}"/></s:div>
-		<s:div><s:file property="uploadFile" name="file" value="%{fileDir}"/></s:div>
+		<s:div><s:file property="uploadFile" name="goodsImg" value="%{fileDir}"/></s:div>
 		<s:div>カテゴリ名：<s:select list='{"fire_extinguisher", "flame_thrower", "seedling"}' name="category" value="%{category}" /></s:div>
 		<s:div>価格：<s:textfield name="price" value="%{price}"/></s:div>
 		<s:div>在庫：<s:textfield name="stock" value="%{stock}"/></s:div>

@@ -21,6 +21,18 @@ public abstract interface MyErrorConstants {
 
 	public static final String MAIL_ERROR_MESSAGE = "メールアドレスを正しく入力してください";
 
+	public static final String INPUT_ERROR_MESSAGE = "入力漏れがありませんか？";
+
+	public static final String GOODSNAME_ERROR_MESSAGE = "その商品名は既に使われています";
+
+	public static final String ADD_GOODS_ERROR_MESSAGE = "商品情報の登録が失敗しました";
+
+	public static final String FILE_SAVE_ERROR_MESSAGE = "商品画像の保存に失敗しました";
+
+	public static final String CHANGE_GOODS_ERROR_MESSAGE = "商品情報の変更が失敗しました";
+
+	public static final String DELETE_GOODS_FROM_CART_ERROR_MESSAGE = "正常に商品を削除できませんでした";
+
 
 
 }

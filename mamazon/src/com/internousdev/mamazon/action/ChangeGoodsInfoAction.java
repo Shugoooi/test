@@ -11,9 +11,10 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.internousdev.mamazon.dao.GoodsDAO;
 import com.internousdev.mamazon.dto.GoodsDTO;
+import com.internousdev.mamazon.util.MyErrorConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ChangeGoodsInfoAction extends ActionSupport implements ServletRequestAware {
+public class ChangeGoodsInfoAction extends ActionSupport implements ServletRequestAware, MyErrorConstants {
 
 	/**
 	 * 変更後の商品名
@@ -38,7 +39,7 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 	/**
 	 * 画像ファイル
 	 */
-	private File file = new File(new String());
+	private File goodsImg = new File("");
 
 	/**
 	 * 画像ファイルを置く場所
@@ -61,15 +62,9 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 	private int stock;
 
 	/**
-	 * 入力エラーメッセージ（商品情報の入力漏れがあったときに表示）
+	 * エラーメッセージ
 	 */
-	private String inputErr;
-
-	/**
-	 * 商品名エラーメッセージ
-	 */
-	private String goodsNameErr;
-
+	private String errMsg;
 
 	/**
 	 * HTTPリクエスト
@@ -79,7 +74,7 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 	public String execute() throws SQLException {
 		//商品情報の入力チェック
 		if (goodsName.isEmpty() || category.isEmpty() || price==0 ) {
-			inputErr = "入力漏れがありませんか？";
+			errMsg = INPUT_ERROR_MESSAGE;
 			return ERROR;
 		}
 
@@ -87,21 +82,24 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 		if (! goodsName.equals(oldGoodsName)) {
 			GoodsDAO confirmGoodsName = new GoodsDAO();
 			if(confirmGoodsName.isAlreadyUsed(goodsName)) {
-				goodsNameErr = "その商品名は既に使われています";
+				errMsg = GOODSNAME_ERROR_MESSAGE;
 				return ERROR;
 			}
 		}
 
 		//画像ファイルを読み込んでいたら画像保管庫へ保存
-		if(file.exists()){
+		if(goodsImg.exists()){
 			fileName = oldGoodsName + ".jpg";
 			fileDir = new File(request.getServletContext().getRealPath("/img"));
 			File outputFile = new File(fileDir, fileName);
 			BufferedImage readImage = null;
 
 			try {
-				readImage = ImageIO.read(file);
-				ImageIO.write(readImage, "jpg", outputFile);
+				readImage = ImageIO.read(goodsImg);
+				if (!ImageIO.write(readImage, "jpg", outputFile)) {
+					errMsg = FILE_SAVE_ERROR_MESSAGE;
+					return ERROR;
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -115,15 +113,29 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 		fileDir = new File(request.getServletContext().getRealPath("/img"));
 		File oldFile = new File(fileDir, oldFileName);
 		File newFile = new File(fileDir, fileName);
-		oldFile.renameTo(newFile);
+		if (!oldFile.renameTo(newFile)) {
+			errMsg = FILE_SAVE_ERROR_MESSAGE;
+			return ERROR;
+		}
 
 		//商品情報の変更をDBへ登録する
 		GoodsDAO dao = new GoodsDAO();
 		GoodsDTO dto = new GoodsDTO(goodsName, "img/"+fileName, category, price, stock);
-		dao.changeGoodsInfo(dto, oldGoodsName);
+		if (!dao.changeGoodsInfo(dto, oldGoodsName)) {
+			errMsg = CHANGE_GOODS_ERROR_MESSAGE;
+			return ERROR;
+		}
 
 
 		return SUCCESS;
+	}
+
+
+	/**
+	 * @param errMsg セットする errMsg
+	 */
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
 	}
 
 
@@ -152,10 +164,10 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 
 
 	/**
-	 * @return file
+	 * @return goodsImg
 	 */
-	public File getFile() {
-		return file;
+	public File getGoodsImg() {
+		return goodsImg;
 	}
 
 
@@ -208,10 +220,10 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 
 
 	/**
-	 * @param file セットする file
+	 * @param goodsImg セットする goodsImg
 	 */
-	public void setFile(File file) {
-		this.file = file;
+	public void setGoodsImg(File goodsImg) {
+		this.goodsImg = goodsImg;
 	}
 
 
@@ -240,19 +252,12 @@ public class ChangeGoodsInfoAction extends ActionSupport implements ServletReque
 
 
 	/**
-	 * @return inputErr
+	 * @return errMsg
 	 */
-	public String getInputErr() {
-		return inputErr;
+	public String getErrMsg() {
+		return errMsg;
 	}
 
-
-	/**
-	 * @return goodsNameErr
-	 */
-	public String getGoodsNameErr() {
-		return goodsNameErr;
-	}
 
 	@Override
 	/**

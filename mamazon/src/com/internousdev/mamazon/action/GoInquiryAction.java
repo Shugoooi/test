@@ -1,7 +1,6 @@
 package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -20,7 +19,7 @@ public class GoInquiryAction extends ActionSupport implements SessionAware {
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * メアド（ログインしていたらユーザー情報から持ってくる）
@@ -43,6 +42,18 @@ public class GoInquiryAction extends ActionSupport implements SessionAware {
 			}
 		}
 		return SUCCESS;
+	}
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+	/**
+	 * @param mail セットする mail
+	 */
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	/**
 	 * @return mail

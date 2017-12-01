@@ -16,19 +16,18 @@ public class ShowDesiredGoodsAction extends ActionSupport {
 
 	/**
 	 * 商品の検索方法（カテゴリで探すのか、検索フォームから検索するのか、etc...
-	 * 今のところ"category", "bestSeller", "searchForm"のどれか（の予定）
 	 */
-	private String howSearchGoods=null;
+	private String howSearchGoods = null;
 
 	/**
 	 * カテゴリ名（商品を探す際に指定されていたら使う）
 	 */
-	private String category=null;
+	private String category = null;
 
 	/**
 	 * 検索ワード
 	 */
-	private String keyword=null;
+	private String keyword = null;
 
 	/**
 	 * 要求された商品リスト
@@ -106,6 +105,13 @@ public class ShowDesiredGoodsAction extends ActionSupport {
 	 */
 	public ArrayList<GoodsDTO> getGoodsList() {
 		return goodsList;
+	}
+
+	/**
+	 * @param goodsList セットする goodsList
+	 */
+	public void setGoodsList(ArrayList<GoodsDTO> goodsList) {
+		this.goodsList = goodsList;
 	}
 
 }

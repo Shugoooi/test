@@ -1,7 +1,6 @@
 package com.internousdev.mamazon.action;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -20,7 +19,7 @@ public class UserResistrationModAction extends ActionSupport implements SessionA
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * 新規登録ネーム
@@ -59,6 +58,54 @@ public class UserResistrationModAction extends ActionSupport implements SessionA
 		dao.updateUserInfo(dto);
 		session.replace("userName", newName);
 		return SUCCESS;
+	}
+
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+
+	/**
+	 * @return newName
+	 */
+	public String getNewName() {
+		return newName;
+	}
+
+
+	/**
+	 * @return newPassword
+	 */
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+
+	/**
+	 * @return newTel
+	 */
+	public String getNewTel() {
+		return newTel;
+	}
+
+
+	/**
+	 * @return newMail
+	 */
+	public String getNewMail() {
+		return newMail;
+	}
+
+
+	/**
+	 * @return newAddress
+	 */
+	public String getNewAddress() {
+		return newAddress;
 	}
 
 

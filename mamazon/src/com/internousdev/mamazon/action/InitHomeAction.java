@@ -22,7 +22,7 @@ public class InitHomeAction extends ActionSupport implements SessionAware {
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	/**
 	 * カテゴリ一覧
@@ -47,6 +47,20 @@ public class InitHomeAction extends ActionSupport implements SessionAware {
 		CartInfoDAO dao = new CartInfoDAO();
 		dao.delCartTMP();
 		return SUCCESS;
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
+	}
+
+	/**
+	 * @param categoryMap セットする categoryMap
+	 */
+	public void setCategoryMap(Map<String, String> categoryMap) {
+		this.categoryMap = categoryMap;
 	}
 
 	/**

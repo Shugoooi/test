@@ -3,7 +3,6 @@
  */
 package com.internousdev.mamazon.action;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -20,7 +19,7 @@ public class LogoutAction extends ActionSupport implements SessionAware {
 	/**
 	 * セッション
 	 */
-	private Map<String, Object> session = new HashMap<>();
+	private Map<String, Object> session;
 
 	public String execute() {
 		//ログインセッションを全て切断する
@@ -28,6 +27,13 @@ public class LogoutAction extends ActionSupport implements SessionAware {
 		session.remove("userId");
 		session.replace("loginFlg", false);
 		return SUCCESS;
+	}
+
+	/**
+	 * @return session
+	 */
+	public Map<String, Object> getSession() {
+		return session;
 	}
 
 	/**

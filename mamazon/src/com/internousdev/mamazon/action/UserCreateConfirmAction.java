@@ -107,6 +107,46 @@ public class UserCreateConfirmAction extends ActionSupport  implements MyErrorCo
 
 
 	/**
+	 * @param errMsg セットする errMsg
+	 */
+	public void setErrMsg(String errMsg) {
+		this.errMsg = errMsg;
+	}
+
+
+	/**
+	 * @param idErr セットする idErr
+	 */
+	public void setIdErr(String idErr) {
+		this.idErr = idErr;
+	}
+
+
+	/**
+	 * @param passwordErr セットする passwordErr
+	 */
+	public void setPasswordErr(String passwordErr) {
+		this.passwordErr = passwordErr;
+	}
+
+
+	/**
+	 * @param telErr セットする telErr
+	 */
+	public void setTelErr(String telErr) {
+		this.telErr = telErr;
+	}
+
+
+	/**
+	 * @param mailErr セットする mailErr
+	 */
+	public void setMailErr(String mailErr) {
+		this.mailErr = mailErr;
+	}
+
+
+	/**
 	 * @return newName
 	 */
 	public String getNewName() {

@@ -93,5 +93,12 @@ public class InquiryConfirmAction extends ActionSupport implements MyErrorConsta
 		return mailErr;
 	}
 
+	/**
+	 * @param mailErr セットする mailErr
+	 */
+	public void setMailErr(String mailErr) {
+		this.mailErr = mailErr;
+	}
+
 
 }

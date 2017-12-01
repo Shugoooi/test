@@ -48,6 +48,8 @@
 		</ul>
 	</s:div>
 	<s:div id="right">
+		<s:property value="errMsg" />
+
 		<s:if test='myPageDisplay=="myResister"'>
 			<jsp:include page="subjsp/myResister.jsp" />
 		</s:if>

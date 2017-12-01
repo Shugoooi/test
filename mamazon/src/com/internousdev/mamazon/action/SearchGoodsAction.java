@@ -9,10 +9,19 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class SearchGoodsAction extends ActionSupport {
 
+	/**
+	 * 検索キーワード
+	 */
 	private String keyword = new String();
 
+	/**
+	 * 検索カテゴリ
+	 */
 	private String category = new String();
 
+	/**
+	 * 検索に引っかかった商品のリスト
+	 */
 	private ArrayList<GoodsDTO> goodsList = new ArrayList<>();
 
 	public String execute() throws SQLException {
@@ -38,6 +47,27 @@ public class SearchGoodsAction extends ActionSupport {
 			}
 		}
 		return SUCCESS;
+	}
+
+	/**
+	 * @return keyword
+	 */
+	public String getKeyword() {
+		return keyword;
+	}
+
+	/**
+	 * @return category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param goodsList セットする goodsList
+	 */
+	public void setGoodsList(ArrayList<GoodsDTO> goodsList) {
+		this.goodsList = goodsList;
 	}
 
 	/**

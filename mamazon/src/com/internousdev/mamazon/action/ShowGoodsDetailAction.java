@@ -76,6 +76,54 @@ public class ShowGoodsDetailAction extends ActionSupport {
 
 
 	/**
+	 * @param price セットする price
+	 */
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+
+	/**
+	 * @param imgLocated セットする imgLocated
+	 */
+	public void setImgLocated(String imgLocated) {
+		this.imgLocated = imgLocated;
+	}
+
+
+	/**
+	 * @param stock セットする stock
+	 */
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+
+	/**
+	 * @param purchaseCount セットする purchaseCount
+	 */
+	public void setPurchaseCount(ArrayList<Integer> purchaseCount) {
+		this.purchaseCount = purchaseCount;
+	}
+
+
+	/**
+	 * @param goodsAlreadyIntoCartMessage セットする goodsAlreadyIntoCartMessage
+	 */
+	public void setGoodsAlreadyIntoCartMessage(String goodsAlreadyIntoCartMessage) {
+		this.goodsAlreadyIntoCartMessage = goodsAlreadyIntoCartMessage;
+	}
+
+
+	/**
+	 * @param goodsAlreadyIntoCartFlg セットする goodsAlreadyIntoCartFlg
+	 */
+	public void setGoodsAlreadyIntoCartFlg(Boolean goodsAlreadyIntoCartFlg) {
+		this.goodsAlreadyIntoCartFlg = goodsAlreadyIntoCartFlg;
+	}
+
+
+	/**
 	 * @param goodsName セットする goodsName
 	 */
 	public void setGoodsName(String goodsName) {

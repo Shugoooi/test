@@ -12,9 +12,10 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.internousdev.mamazon.dao.GoodsDAO;
 import com.internousdev.mamazon.dto.GoodsDTO;
+import com.internousdev.mamazon.util.MyErrorConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class AddGoodsAction extends ActionSupport implements ServletRequestAware {
+public class AddGoodsAction extends ActionSupport implements ServletRequestAware, MyErrorConstants {
 
 	/**
 	 * 商品名
@@ -24,12 +25,12 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 	/**
 	 * 画像ファイルの名前
 	 */
-	private String fileName = new String();
+	private String fileName = "";
 
 	/**
 	 * 画像ファイル
 	 */
-	private File file;
+	private File goodsImg;
 
 	/**
 	 * 画像ファイルを置く場所
@@ -57,26 +58,16 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 	HttpServletRequest request;
 
 	/**
-	 * 入力エラーメッセージ（商品情報の入力漏れがあったときに表示）
+	 * エラーメッセージ
 	 */
-	private String inputErr;
-
-	/**
-	 * 商品名エラーメッセージ
-	 */
-	private String goodsNameErr;
-
-	/**
-	 * 画像ファイル作成エラーメッセージ
-	 */
-	private String fileCreateErr;
+	private String errMsg;
 
 
 	public String execute() throws SQLException {
 
 		//商品情報の入力チェック
-		if(goodsName.isEmpty() || category.isEmpty() || price==0 || !file.exists()) {
-			inputErr = "入力漏れがありませんか？";
+		if(goodsName.isEmpty() || category.isEmpty() || price==0 || !goodsImg.exists()) {
+			errMsg = INPUT_ERROR_MESSAGE;
 			return ERROR;
 		}
 
@@ -84,7 +75,7 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 		//商品名が有効かチェック
 		GoodsDAO confirmGoodsName = new GoodsDAO();
 		if(confirmGoodsName.isAlreadyUsed(goodsName)) {
-			goodsNameErr = "その商品名は既に使われています";
+			errMsg = GOODSNAME_ERROR_MESSAGE;
 			return ERROR;
 		}
 
@@ -96,8 +87,11 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 		BufferedImage readImage = null;
 
 		try {
-			readImage = ImageIO.read(file);
-			ImageIO.write(readImage, "jpg", outputFile);
+			readImage = ImageIO.read(goodsImg);
+			if (!ImageIO.write(readImage, "jpg", outputFile)) {
+				errMsg = FILE_SAVE_ERROR_MESSAGE;
+				return ERROR;
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -108,10 +102,60 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 		//商品情報をDBへ登録
 		GoodsDAO dao = new GoodsDAO();
 		GoodsDTO dto = new GoodsDTO(goodsName, "img/"+fileName, category, price, stock);
-		dao.newGoods(dto);
-
+		if(!dao.newGoods(dto)) {
+			errMsg = ADD_GOODS_ERROR_MESSAGE;
+			return ERROR;
+		}
 
 		return SUCCESS;
+	}
+
+
+	/**
+	 * @return goodsName
+	 */
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+
+	/**
+	 * @return goodsImg
+	 */
+	public File getGoodsImg() {
+		return goodsImg;
+	}
+
+
+	/**
+	 * @return category
+	 */
+	public String getCategory() {
+		return category;
+	}
+
+
+	/**
+	 * @return price
+	 */
+	public int getPrice() {
+		return price;
+	}
+
+
+	/**
+	 * @return stock
+	 */
+	public int getStock() {
+		return stock;
+	}
+
+
+	/**
+	 * @param errMsg セットする errmsg
+	 */
+	public void setGoodsNameErr(String errMsg) {
+		this.errMsg = errMsg;
 	}
 
 
@@ -124,10 +168,10 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 
 
 	/**
-	 * @param file セットする file
+	 * @param goodsImg セットする goodsImg
 	 */
-	public void setFile(File file) {
-		this.file = file;
+	public void setGoodsImg(File goodsImg) {
+		this.goodsImg = goodsImg;
 	}
 
 
@@ -156,26 +200,10 @@ public class AddGoodsAction extends ActionSupport implements ServletRequestAware
 
 
 	/**
-	 * @return inputErr
+	 * @return errMsg
 	 */
-	public String getInputErr() {
-		return inputErr;
-	}
-
-
-	/**
-	 * @return goodsNameErr
-	 */
-	public String getGoodsNameErr() {
-		return goodsNameErr;
-	}
-
-
-	/**
-	 * @return fileCreateErr
-	 */
-	public String getFileCreateErr() {
-		return fileCreateErr;
+	public String getErrMsg() {
+		return errMsg;
 	}
 
 

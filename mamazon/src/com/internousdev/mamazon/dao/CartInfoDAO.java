@@ -66,7 +66,9 @@ public class CartInfoDAO {
 	 * @param dto
 	 * @throws SQLException
 	 */
-	public void setCartInfo(CartInfoDTO dto) throws SQLException {
+	public boolean setCartInfo(CartInfoDTO dto) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "INSERT INTO cart_info(goods_name, purchase_number, owner) VALUES(?, ?, ?)";
 
@@ -75,12 +77,14 @@ public class CartInfoDAO {
 			ps.setString(1, dto.getGoodsName());
 			ps.setInt(2, dto.getPurchaseCount());
 			ps.setString(3, dto.getOwner());
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
+
+		return ret;
 
 	}
 
@@ -89,7 +93,9 @@ public class CartInfoDAO {
 	 * @param dto
 	 * @throws SQLException
 	 */
-	public void updateUserPurchaseCount(CartInfoDTO dto) throws SQLException {
+	public boolean updateUserPurchaseCount(CartInfoDTO dto) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "UPDATE cart_info SET purchase_number=? WHERE owner=? and goods_name=?";
 
@@ -98,13 +104,14 @@ public class CartInfoDAO {
 			ps.setInt(1, dto.getPurchaseCount());
 			ps.setString(2, dto.getOwner());
 			ps.setString(3, dto.getGoodsName());
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 
 
@@ -113,36 +120,44 @@ public class CartInfoDAO {
 	 * @param owner
 	 * @throws SQLException
 	 */
-	public void delCartInfo(String owner) throws SQLException {
+	public int delCartInfo(String owner) throws SQLException {
+
+		int ret = 0;
+
 		String sql = "DELETE FROM cart_info where owner=?";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, owner);
-			ps.execute();
+			ret = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 
 	/**
 	 * カート情報を一時的に保存するcart_tmpを作成する
 	 */
-	public void createCartTMP() throws SQLException {
+	public boolean createCartTMP() throws SQLException {
+
+		boolean ret = false;
+
 		String sql = "CREATE TABLE IF not EXISTS cart_tmp(goods_name varchar(255), purchase_number int(8), owner varchar(255))";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 
 	/**
@@ -186,7 +201,9 @@ public class CartInfoDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Boolean isAlreadyIntoCartInfo(String goodsName, String owner) throws SQLException {
+	public boolean isAlreadyIntoCartInfo(String goodsName, String owner) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "SELECT goods_name FROM cart_info where goods_name=? and owner=?";
 
@@ -195,12 +212,7 @@ public class CartInfoDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, goodsName);
 			ps.setString(2, owner);
-			ResultSet rs = ps.executeQuery();
-
-			if( rs.next() ) {
-				return true;
-			}
-
+			ret = ps.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -208,7 +220,7 @@ public class CartInfoDAO {
 			con.close();
 		}
 
-		return false;
+		return ret;
 	}
 
 	/**
@@ -217,7 +229,9 @@ public class CartInfoDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Boolean isAlreadyIntoCartTMP(String goodsName) throws SQLException {
+	public boolean isAlreadyIntoCartTMP(String goodsName) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "SELECT goods_name FROM cart_tmp where goods_name=?";
 
@@ -225,12 +239,7 @@ public class CartInfoDAO {
 
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, goodsName);
-			ResultSet rs = ps.executeQuery();
-
-			if( rs.next() ) {
-				return true;
-			}
-
+			ret = ps.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -238,13 +247,15 @@ public class CartInfoDAO {
 			con.close();
 		}
 
-		return false;
+		return ret;
 	}
 
 	/**
 	 * 商品を一時カートへ入れる
 	 */
-	public void setCartTMP(CartInfoDTO dto) throws SQLException {
+	public boolean setCartTMP(CartInfoDTO dto) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "INSERT INTO cart_tmp(goods_name, purchase_number, owner) VALUES(?, ?, ?)";
 
@@ -253,12 +264,14 @@ public class CartInfoDAO {
 			ps.setString(1, dto.getGoodsName());
 			ps.setInt(2, dto.getPurchaseCount());
 			ps.setString(3, dto.getOwner());
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
+
+		return ret;
 
 	}
 
@@ -267,7 +280,9 @@ public class CartInfoDAO {
 	 * @param dto
 	 * @throws SQLException
 	 */
-	public void updateTMPPurchaseCount(CartInfoDTO dto) throws SQLException {
+	public boolean updateTMPPurchaseCount(CartInfoDTO dto) throws SQLException {
+
+		boolean ret = false;
 
 		String sql = "UPDATE cart_tmp SET purchase_number=? WHERE goods_name=?";
 
@@ -275,72 +290,85 @@ public class CartInfoDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, dto.getPurchaseCount());
 			ps.setString(2, dto.getGoodsName());
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 
 	/**
 	 * 一時カートを削除する
 	 */
-	public void delCartTMP() throws SQLException {
+	public boolean delCartTMP() throws SQLException {
+
+		boolean ret = false;
+
 		String sql = "DROP TABLE IF exists cart_tmp";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 
 
 	/**
-	 * 商品をカートから外す
+	 * 商品をログイン者のカートから外す
 	 * @param deleteGoods
 	 * @throws SQLException
 	 */
-	public void delGoodsFromCartInfo(String deleteGoods, String owner) throws SQLException {
+	public boolean delGoodsFromCartInfo(String deleteGoods, String owner) throws SQLException {
+
+		boolean ret = false;
+
 		String sql = "DELETE FROM cart_info where goods_name=? and owner=?";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, deleteGoods);
 			ps.setString(2, owner);
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 
 
 	/**
-	 * 商品をカートから外す
+	 * 商品を一時カートから外す
 	 * @param deleteGoods
 	 * @throws SQLException
 	 */
-	public void delGoodsFromCartTMP(String deleteGoods) throws SQLException {
+	public boolean delGoodsFromCartTMP(String deleteGoods) throws SQLException {
+
+		boolean ret = false;
+
 		String sql = "DELETE FROM cart_tmp where goods_name=?";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, deleteGoods);
-			ps.execute();
+			ret = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
+		return ret;
 	}
 }

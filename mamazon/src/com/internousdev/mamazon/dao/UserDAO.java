@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import com.internousdev.mamazon.dto.UserDTO;
 import com.internousdev.mamazon.util.DBConnector;
 
+
 /**
  * ユーザ情報をDBから取得
  * @author internousdev
@@ -16,6 +17,7 @@ import com.internousdev.mamazon.util.DBConnector;
 public class UserDAO {
 	DBConnector db = new DBConnector();
 	Connection con = db.getConnection();
+
 
 	/**
 	 * ユーザー情報をDBから検索
@@ -27,7 +29,6 @@ public class UserDAO {
 	public UserDTO getUserInfo(String loginId, String loginPassword) throws SQLException {
 
 		UserDTO userDTO = new UserDTO();
-
 		String sql = "SELECT id, pass, name, tel, mail, address FROM user_info where id=? AND pass=?;";
 
 		try{
@@ -38,11 +39,12 @@ public class UserDAO {
 
 			if(rs.next()) {
 				userDTO.setUserInfo( rs.getString("name"),
-									rs.getString("id"),
-									rs.getString("pass"),
-									rs.getString("tel"),
-									rs.getString("mail"),
-									rs.getString("address"));
+									 rs.getString("id"),
+									 rs.getString("pass"),
+									 rs.getString("tel"),
+									 rs.getString("mail"),
+									 rs.getString("address")
+									 );
 				userDTO.setLoginFlg(true);
 			}
 
@@ -64,7 +66,6 @@ public class UserDAO {
 	public UserDTO getUserInfo(String loginId) throws SQLException {
 
 		UserDTO userDTO = new UserDTO();
-
 		String sql = "SELECT id, pass, name, tel, mail, address FROM user_info where id=?";
 
 		try{
@@ -74,11 +75,12 @@ public class UserDAO {
 
 			if(rs.next()) {
 				userDTO.setUserInfo( rs.getString("name"),
-									rs.getString("id"),
-									rs.getString("pass"),
-									rs.getString("tel"),
-									rs.getString("mail"),
-									rs.getString("address"));
+									 rs.getString("id"),
+									 rs.getString("pass"),
+									 rs.getString("tel"),
+									 rs.getString("mail"),
+									 rs.getString("address")
+									 );
 			}
 
 		} catch(SQLException e) {
@@ -90,16 +92,18 @@ public class UserDAO {
 		return userDTO;
 	}
 
+
 	/**
 	 * 与えられたユーザー情報をDBに登録
 	 * @param userDTO
 	 * @throws SQLException
 	 */
-	public void setUserInfo(UserDTO userDTO) throws SQLException{
+	public boolean setUserInfo(UserDTO userDTO) throws SQLException{
 
+		boolean ret = false;
 		String sql = "INSERT INTO user_info(name, id, pass, tel, mail, address, create_date, update_date) VALUES(?, ?, ?, ?, ?, ?, NOW(), NOW());";
 
-		try{
+		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, userDTO.getUserName());
 			ps.setString(2,  userDTO.getId());
@@ -107,25 +111,29 @@ public class UserDAO {
 			ps.setString(4,  userDTO.getTel());
 			ps.setString(5, userDTO.getMail());
 			ps.setString(6,  userDTO.getAddress());
-			ps.execute();
+			ret = ps.execute();
 
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
+
+		return ret;
 	}
+
 
 	/**
 	 * 与えられたユーザー情報をDBに登録(上書き）
 	 * @param userDTO
 	 * @throws SQLException
 	 */
-	public void updateUserInfo(UserDTO userDTO) throws SQLException{
+	public boolean updateUserInfo(UserDTO userDTO) throws SQLException{
 
+		boolean ret = false;
 		String sql = "UPDATE user_info SET name=?, pass=?, tel=?, mail=?, address=?, update_date=NOW() where id = ?";
 
-		try{
+		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, userDTO.getUserName());
 			ps.setString(6,  userDTO.getId());
@@ -133,13 +141,16 @@ public class UserDAO {
 			ps.setString(3,  userDTO.getTel());
 			ps.setString(4, userDTO.getMail());
 			ps.setString(5,  userDTO.getAddress());
-			ps.execute();
+
+			ret = ps.execute();
 
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
+
+		return ret;
 	}
 
 	/**
@@ -149,23 +160,22 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public boolean idChk(String id) throws SQLException {
+
+		boolean ret = true;
+
 		String sql = "SELECT * from user_info where id=?";
 
-		try{
+		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, id);
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()){
-				return false;
-			} else {
-				return true;
-			}
+			ret = !ps.execute();
+
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return false;
+		return ret;
 	}
 }

@@ -78,6 +78,30 @@ public class UserInfoModConfirmAction extends ActionSupport  implements MyErrorC
 
 
 	/**
+	 * @param passwordErr セットする passwordErr
+	 */
+	public void setPasswordErr(String passwordErr) {
+		this.passwordErr = passwordErr;
+	}
+
+
+	/**
+	 * @param telErr セットする telErr
+	 */
+	public void setTelErr(String telErr) {
+		this.telErr = telErr;
+	}
+
+
+	/**
+	 * @param mailErr セットする mailErr
+	 */
+	public void setMailErr(String mailErr) {
+		this.mailErr = mailErr;
+	}
+
+
+	/**
 	 * @return newName
 	 */
 	public String getNewName() {

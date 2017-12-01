@@ -75,6 +75,27 @@ public class InquiryTransmissionAction extends ActionSupport {
 	}
 
 	/**
+	 * @return userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @return mail
+	 */
+	public String getMail() {
+		return mail;
+	}
+
+	/**
+	 * @return text
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/**
 	 * @param userName セットする userName
 	 */
 	public void setUserName(String userName) {

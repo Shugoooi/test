@@ -4,32 +4,35 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * DBへ接続をする
- * @author internousdev
- *
- */
 public class DBConnector {
-	Connection con = null;
-
 	/**
-	 * DBへ接続をする
+	 * JDBCドライバー名
 	 */
-	public Connection getConnection() {
-		final String driverName = "com.mysql.jdbc.Driver";
-		final String url = "jdbc:mysql://localhost/yataberyouhin";
-		final String user = "root";
-		final String password = "mysql";
+	private static String driverName = "com.mysql.jdbc.Driver";
+	/**
+	 * データベース接続URL
+	 */
+	private static String url = "jdbc:mysql://localhost/yataberyouhin";
+	/**
+	 * データベース接続ユーザー名
+	 */
+	private static String user = "root";
+	/**
+	 * データベース接続パスワード
+	 */
+	private static String password = "mysql";
 
+	public Connection getConnection() {
+		Connection con = null;
 		try {
 			Class.forName(driverName);
-
 			con = DriverManager.getConnection(url, user, password);
-
-		} catch(SQLException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return con;
 	}
+
 }

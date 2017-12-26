@@ -51,7 +51,7 @@ public class InquiryTransmissionAction extends ActionSupport {
         property.put("mail.smtp.debug", "true");
 	    Session session = Session.getInstance(property, new javax.mail.Authenticator() {
 	    	protected PasswordAuthentication getPasswordAuthentication() {
-	    		return new PasswordAuthentication("internousdev", "internous01");
+	    		return new PasswordAuthentication("internousmorioka", "internous");
 	    	}
 	    });
 

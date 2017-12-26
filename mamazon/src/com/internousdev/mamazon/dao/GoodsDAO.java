@@ -12,7 +12,7 @@ import com.internousdev.mamazon.util.DBConnector;
 
 public class GoodsDAO {
 	DBConnector db = new DBConnector();
-	Connection con = db.getConnection();
+	Connection con = null;
 
 
 	/**
@@ -24,6 +24,7 @@ public class GoodsDAO {
 	public GoodsDTO getGoodsInfo(String goodsName) throws SQLException {
 
 		GoodsDTO dto = new GoodsDTO();
+		con = db.getConnection();
 
 		String sql = "SELECT name, img_located, price, stock FROM goods_info where name=?";
 
@@ -59,6 +60,7 @@ public class GoodsDAO {
 	public ArrayList<GoodsDTO> collectGoodsMatchedCategory(String category) throws SQLException {
 
 		ArrayList<GoodsDTO> goodsList = new ArrayList<>();
+		con = db.getConnection();
 
 		String sql = "SELECT name, img_located, price, stock FROM goods_info where category=?";
 
@@ -97,6 +99,7 @@ public class GoodsDAO {
 	public ArrayList<GoodsDTO> searchGoodsMatchedWords(String keyword) throws SQLException {
 
 		ArrayList<GoodsDTO> goodsList = new ArrayList<>();
+		con = db.getConnection();
 
 		String sql = "SELECT name, img_located, price, stock FROM goods_info where name LIKE \'%" + keyword + "%\'";
 
@@ -134,6 +137,7 @@ public class GoodsDAO {
 	public ArrayList<GoodsDTO> searchGoods(String keyword, String category) throws SQLException {
 
 		ArrayList<GoodsDTO> goodsList = new ArrayList<>();
+		con = db.getConnection();
 
 		String sql = "SELECT name, img_located, price, stock FROM goods_info where category=? AND name LIKE \'%" + keyword + "%\'";
 
@@ -169,7 +173,9 @@ public class GoodsDAO {
 	 */
 	public boolean updateStock(CartInfoDTO dto) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "UPDATE goods_info SET stock=? WHERE name=?";
 
@@ -178,7 +184,7 @@ public class GoodsDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, dto.getStock()-dto.getPurchaseCount());
 			ps.setString(2, dto.getGoodsName());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -186,7 +192,11 @@ public class GoodsDAO {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -197,7 +207,9 @@ public class GoodsDAO {
 	 */
 	public boolean isAlreadyUsed(String goodsName) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "SELECT * FROM goods_info where name=?";
 
@@ -205,7 +217,7 @@ public class GoodsDAO {
 
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, goodsName);
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,7 +225,11 @@ public class GoodsDAO {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -223,7 +239,9 @@ public class GoodsDAO {
 	 */
 	public boolean newGoods(GoodsDTO dto) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "INSERT INTO goods_info(name, img_located, category, price, stock, create_date) VALUES(?,?,?,?,?,NOW())";
 
@@ -235,7 +253,7 @@ public class GoodsDAO {
 			ps.setString(3, dto.getCategory());
 			ps.setInt(4, dto.getPrice());
 			ps.setInt(5, dto.getStock());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -243,7 +261,11 @@ public class GoodsDAO {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -254,7 +276,9 @@ public class GoodsDAO {
 	 */
 	public boolean changeGoodsInfo(GoodsDTO dto, String oldGoodsName) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "UPDATE goods_info SET name=?, img_located=?, category=?, price=?, stock=?, update_time=NOW() WHERE name=?";
 
@@ -267,7 +291,7 @@ public class GoodsDAO {
 			ps.setInt(4, dto.getPrice());
 			ps.setInt(5, dto.getStock());
 			ps.setString(6, oldGoodsName);
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -275,7 +299,11 @@ public class GoodsDAO {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 }

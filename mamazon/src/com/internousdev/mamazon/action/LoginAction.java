@@ -62,8 +62,10 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 			//ログイン成功、ユーザー情報及びログインフラグをセッションへ保存
 			session.put("userId", dto.getId());
 			session.put("userName", dto.getUserName());
+			
 			if(session.containsKey("loginFlg")) {
 				session.replace("loginFlg", dto.getLoginFlg());
+				
 			} else {
 				session.put("loginFlg",  dto.getLoginFlg());
 			}
@@ -71,7 +73,7 @@ public class LoginAction extends ActionSupport implements SessionAware, MyErrorC
 			//ユーザーのカート情報を一時カートへ保存する、両カート間で商品が重複した場合はユーザーのカート情報が優先される
 			CartInfoDAO cartInfoDAO = new CartInfoDAO();
 			ArrayList<CartInfoDTO> cartList = new ArrayList<>();
-			for( CartInfoDTO cartInfoDTO : cartInfoDAO.getCartInfo(dto.getId()) ) {
+			for(CartInfoDTO cartInfoDTO : cartInfoDAO.getCartInfo(dto.getId())) {
 				cartList.add(cartInfoDTO);
 			}
 			for(CartInfoDTO cartInfoDTO : cartList) {

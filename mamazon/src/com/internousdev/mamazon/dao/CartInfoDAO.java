@@ -21,7 +21,7 @@ import com.internousdev.mamazon.util.DBConnector;
 public class CartInfoDAO {
 
 	DBConnector db = new DBConnector();
-	Connection con = db.getConnection();
+	Connection con = null;
 
 
 	/**
@@ -33,6 +33,7 @@ public class CartInfoDAO {
 	public ArrayList<CartInfoDTO> getCartInfo(String owner) throws SQLException {
 
 		ArrayList<CartInfoDTO> cartInfoList = new ArrayList<>();
+		con = db.getConnection();
 
 		String sql = "SELECT goods_name, purchase_number, owner FROM cart_info where owner = ?";
 
@@ -68,7 +69,9 @@ public class CartInfoDAO {
 	 */
 	public boolean setCartInfo(CartInfoDTO dto) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "INSERT INTO cart_info(goods_name, purchase_number, owner) VALUES(?, ?, ?)";
 
@@ -77,14 +80,18 @@ public class CartInfoDAO {
 			ps.setString(1, dto.getGoodsName());
 			ps.setInt(2, dto.getPurchaseCount());
 			ps.setString(3, dto.getOwner());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 
 	}
 
@@ -95,7 +102,9 @@ public class CartInfoDAO {
 	 */
 	public boolean updateUserPurchaseCount(CartInfoDTO dto) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "UPDATE cart_info SET purchase_number=? WHERE owner=? and goods_name=?";
 
@@ -104,14 +113,18 @@ public class CartInfoDAO {
 			ps.setInt(1, dto.getPurchaseCount());
 			ps.setString(2, dto.getOwner());
 			ps.setString(3, dto.getGoodsName());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 
@@ -122,21 +135,22 @@ public class CartInfoDAO {
 	 */
 	public int delCartInfo(String owner) throws SQLException {
 
-		int ret = 0;
+		int updateCount = 0;
+		con = db.getConnection();
 
 		String sql = "DELETE FROM cart_info where owner=?";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, owner);
-			ret = ps.executeUpdate();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		return updateCount;
 	}
 
 	/**
@@ -144,20 +158,21 @@ public class CartInfoDAO {
 	 */
 	public boolean createCartTMP() throws SQLException {
 
-		boolean ret = false;
+		boolean result = true;
+		con = db.getConnection();
 
 		String sql = "CREATE TABLE IF not EXISTS cart_tmp(goods_name varchar(255), purchase_number int(8), owner varchar(255))";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ret = ps.execute();
+			result = ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		return result;
 	}
 
 	/**
@@ -169,6 +184,7 @@ public class CartInfoDAO {
 	public ArrayList<CartInfoDTO> getCartTMP() throws SQLException {
 
 		ArrayList<CartInfoDTO> cartInfoList = new ArrayList<>();
+		con = db.getConnection();
 
 		String sql = "SELECT goods_name, purchase_number FROM cart_tmp";
 
@@ -203,7 +219,8 @@ public class CartInfoDAO {
 	 */
 	public boolean isAlreadyIntoCartInfo(String goodsName, String owner) throws SQLException {
 
-		boolean ret = false;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "SELECT goods_name FROM cart_info where goods_name=? and owner=?";
 
@@ -212,7 +229,11 @@ public class CartInfoDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, goodsName);
 			ps.setString(2, owner);
-			ret = ps.execute();
+			ResultSet rs = ps.executeQuery();
+
+			if(rs.next()) {
+				result = true;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -220,7 +241,7 @@ public class CartInfoDAO {
 			con.close();
 		}
 
-		return ret;
+		return result;
 	}
 
 	/**
@@ -231,7 +252,8 @@ public class CartInfoDAO {
 	 */
 	public boolean isAlreadyIntoCartTMP(String goodsName) throws SQLException {
 
-		boolean ret = false;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "SELECT goods_name FROM cart_tmp where goods_name=?";
 
@@ -239,7 +261,11 @@ public class CartInfoDAO {
 
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, goodsName);
-			ret = ps.execute();
+			ResultSet rs = ps.executeQuery();
+
+			if(rs.next()) {
+				result = true;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -247,7 +273,7 @@ public class CartInfoDAO {
 			con.close();
 		}
 
-		return ret;
+		return result;
 	}
 
 	/**
@@ -255,7 +281,9 @@ public class CartInfoDAO {
 	 */
 	public boolean setCartTMP(CartInfoDTO dto) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "INSERT INTO cart_tmp(goods_name, purchase_number, owner) VALUES(?, ?, ?)";
 
@@ -264,14 +292,17 @@ public class CartInfoDAO {
 			ps.setString(1, dto.getGoodsName());
 			ps.setInt(2, dto.getPurchaseCount());
 			ps.setString(3, dto.getOwner());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+		return result;
 
 	}
 
@@ -282,7 +313,9 @@ public class CartInfoDAO {
 	 */
 	public boolean updateTMPPurchaseCount(CartInfoDTO dto) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "UPDATE cart_tmp SET purchase_number=? WHERE goods_name=?";
 
@@ -290,14 +323,18 @@ public class CartInfoDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, dto.getPurchaseCount());
 			ps.setString(2, dto.getGoodsName());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -305,20 +342,26 @@ public class CartInfoDAO {
 	 */
 	public boolean delCartTMP() throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "DROP TABLE IF exists cart_tmp";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 
@@ -329,7 +372,9 @@ public class CartInfoDAO {
 	 */
 	public boolean delGoodsFromCartInfo(String deleteGoods, String owner) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "DELETE FROM cart_info where goods_name=? and owner=?";
 
@@ -337,14 +382,18 @@ public class CartInfoDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, deleteGoods);
 			ps.setString(2, owner);
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 
@@ -355,20 +404,26 @@ public class CartInfoDAO {
 	 */
 	public boolean delGoodsFromCartTMP(String deleteGoods) throws SQLException {
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
+		con = db.getConnection();
 
 		String sql = "DELETE FROM cart_tmp where goods_name=?";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, deleteGoods);
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 }

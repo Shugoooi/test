@@ -32,17 +32,16 @@ public class GoPurchaseCompleteAction extends ActionSupport implements SessionAw
 	public String execute() throws SQLException {
 
 		CartInfoDAO dao = new CartInfoDAO();
+		GoodsDAO goodsDAO = new GoodsDAO();
 		ArrayList<CartInfoDTO> cartList = new ArrayList<>();
 		for(CartInfoDTO dto : dao.getCartTMP()) {
 			//カートの商品情報を取得
-			GoodsDAO goodsDAO = new GoodsDAO();
 			GoodsDTO goodsDTO = goodsDAO.getGoodsInfo(dto.getGoodsName());
 			dto.setGoodsInfo(goodsDTO);
 			dto.setOwner(session.get("userId").toString());
 
 			//購入分在庫を減らす
-			GoodsDAO goodsDAO1 = new GoodsDAO();
-			goodsDAO1.updateStock(dto);
+			goodsDAO.updateStock(dto);
 
 			cartList.add(dto);
 		}
@@ -53,9 +52,8 @@ public class GoPurchaseCompleteAction extends ActionSupport implements SessionAw
 
 		//購入したカート情報の消去
 		CartInfoDAO cartInfoDAO = new CartInfoDAO();
-		CartInfoDAO cartInfoDAO2 = new CartInfoDAO();
 		cartInfoDAO.delCartInfo(session.get("userId").toString());
-		cartInfoDAO2.delCartTMP();
+		cartInfoDAO.delCartTMP();
 		return SUCCESS;
 	}
 

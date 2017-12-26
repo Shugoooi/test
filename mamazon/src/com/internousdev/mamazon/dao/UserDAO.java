@@ -100,7 +100,8 @@ public class UserDAO {
 	 */
 	public boolean setUserInfo(UserDTO userDTO) throws SQLException{
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
 		String sql = "INSERT INTO user_info(name, id, pass, tel, mail, address, create_date, update_date) VALUES(?, ?, ?, ?, ?, ?, NOW(), NOW());";
 
 		try {
@@ -111,7 +112,7 @@ public class UserDAO {
 			ps.setString(4,  userDTO.getTel());
 			ps.setString(5, userDTO.getMail());
 			ps.setString(6,  userDTO.getAddress());
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -119,7 +120,11 @@ public class UserDAO {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 
@@ -130,7 +135,8 @@ public class UserDAO {
 	 */
 	public boolean updateUserInfo(UserDTO userDTO) throws SQLException{
 
-		boolean ret = false;
+		int updateCount = 0;
+		boolean result = false;
 		String sql = "UPDATE user_info SET name=?, pass=?, tel=?, mail=?, address=?, update_date=NOW() where id = ?";
 
 		try {
@@ -142,7 +148,7 @@ public class UserDAO {
 			ps.setString(4, userDTO.getMail());
 			ps.setString(5,  userDTO.getAddress());
 
-			ret = ps.execute();
+			updateCount = ps.executeUpdate();
 
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -150,7 +156,11 @@ public class UserDAO {
 			con.close();
 		}
 
-		return ret;
+		if(updateCount == 1) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -161,14 +171,18 @@ public class UserDAO {
 	 */
 	public boolean idChk(String id) throws SQLException {
 
-		boolean ret = true;
+
+		boolean result = true;
 
 		String sql = "SELECT * from user_info where id=?";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, id);
-			ret = !ps.execute();
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				result = false;
+			}
 
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -176,6 +190,6 @@ public class UserDAO {
 			con.close();
 		}
 
-		return ret;
+		return result;
 	}
 }

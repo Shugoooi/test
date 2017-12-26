@@ -25,7 +25,7 @@ create table cart_info(owner varchar(32),
 						goods_name varchar(255),
 						purchase_number int);
 
-create table purchase_history(purchaser varchar(32) primary key,
+create table purchase_history(purchaser varchar(32) NOT NULL,
 								goods_name varchar(255),
 								goods_price int,
 								purchase_number int,

@@ -41,33 +41,30 @@ public class SelectGoodsIntoCartAction extends ActionSupport implements SessionA
 	public String execute() throws SQLException {
 		//カートに入れる商品の情報を取得
 		CartInfoDTO cartInfoDTO = new CartInfoDTO();
+		CartInfoDAO dao = new CartInfoDAO();
 		cartInfoDTO.setCartInfo(targetGoods, purchaseCount);
 		GoodsDAO goodsDAO = new GoodsDAO();
 		GoodsDTO goodsDTO = goodsDAO.getGoodsInfo(targetGoods);
 		cartInfoDTO.setGoodsInfo(goodsDTO);
 
 		//ログインしているなら購入予定者情報を付加してユーザーのカートに保存
-		if(session.containsKey("loginFlg")){
-			if( (boolean) session.get("loginFlg") ) {
-				CartInfoDAO dao = new CartInfoDAO();
+		if(session.containsKey("loginFlg") && (boolean) session.get("loginFlg") ) {
 				cartInfoDTO.setOwner(session.get("userId").toString());
-				CartInfoDAO dao2 = new CartInfoDAO();
-				if(dao2.isAlreadyIntoCartInfo(targetGoods, session.get("userId").toString())) {
+
+				if(dao.isAlreadyIntoCartInfo(targetGoods, session.get("userId").toString())) {
 					dao.updateUserPurchaseCount(cartInfoDTO);
+
 				} else {
 					dao.setCartInfo(cartInfoDTO);
 				}
-			}
 		}
 
 		//目的の商品を一時カートへ入れる
-		CartInfoDAO dao2 = new CartInfoDAO();
-		dao2.createCartTMP();
-		CartInfoDAO dao3 = new CartInfoDAO();
+		dao.createCartTMP();
 		if(goodsAlreadyIntoCartFlg) {
-			dao3.updateTMPPurchaseCount(cartInfoDTO);
+			dao.updateTMPPurchaseCount(cartInfoDTO);
 		} else {
-			dao3.setCartTMP(cartInfoDTO);
+			dao.setCartTMP(cartInfoDTO);
 		}
 
 
